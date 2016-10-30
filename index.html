@@ -144,132 +144,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-sea" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/28/sea/">使用SeaJS实现模块化JavaScript开发</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是sea-js？"><a href="#什么是sea-js？" class="headerlink" title="什么是sea.js？"></a>什么是sea.js？</h2><p>SeaJS是一个遵循CommonJS规范的JavaScript模块加载框架，可以实现JavaScript的模块化开发及加载机制。与jQuery等JavaScript框架不同，SeaJS不会扩展封装语言特性，而只是实现JavaScript的模块化及按模块加载。SeaJS的主要目的是令JavaScript开发模块化并可以轻松愉悦进行加载，将前端工程师从繁重的JavaScript文件及对象依赖处理中解放出来，可以专注于代码本身的逻辑。SeaJS可以与jQuery这类框架完美集成。使用SeaJS可以提高JavaScript代码的可读性和清晰度，解决目前JavaScript编程中普遍存在的依赖关系混乱和代码纠缠等问题，方便代码的编写和维护。</p>
-<h2 id="模块化开发规范"><a href="#模块化开发规范" class="headerlink" title="模块化开发规范"></a>模块化开发规范</h2><p>上述提到了CommenJS的规范就是模块化开发规范之一，当然还有诸如CMD、AMD等规范。</p>
-<ul>
-<li>CMD规范——sea.js（国产）——源于CommenJS</li>
-<li>AMD规范——require.js（国外）</li>
-<li>CommonJS规范——node.js </li>
-</ul>
-<h2 id="传统模式-vs-SeaJS模块化"><a href="#传统模式-vs-SeaJS模块化" class="headerlink" title="传统模式 vs SeaJS模块化"></a>传统模式 vs SeaJS模块化</h2><p>假设我们现在正在开发一个Web应用TinyApp，我们决定在TinyApp中使用jQuery框架。TinyApp的首页会用到module1.js，module1.js依赖module2.js和module3.js，同时module3.js依赖module4.js。</p>
-<h4 id="传统模式"><a href="#传统模式" class="headerlink" title="传统模式"></a>传统模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var module1 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return $.merge([&apos;module1&apos;], $.merge(module2.run(), module3.run()));</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">//module2.js</div><div class="line">var module2 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return [&apos;module2&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">//module3.js</div><div class="line">var module3 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return $.merge([&apos;module3&apos;], module4.run());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">//module4.js</div><div class="line">var module4 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return [&apos;module4&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>此时index.html需要引用module1.js及其所有下层依赖（注意顺序）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;TinyApp&lt;/title&gt;</div><div class="line">    &lt;script src=&quot;./jquery-min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module4.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module2.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module3.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module1.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">        $(&apos;.content&apos;).html(module1.run());</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>随着项目的进行，js文件会越来越多，依赖关系也会越来越复杂，使得js代码和html里的script列表往往变得难以维护。</p>
-<h4 id="SeaJS模块化开发"><a href="#SeaJS模块化开发" class="headerlink" title="SeaJS模块化开发"></a>SeaJS模块化开发</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;TinyApp&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;script src=&quot;./sea.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">        seajs.use(&apos;./init&apos;, function(init) &#123;</div><div class="line">            init.initPage();</div><div class="line">        &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>可以看到html页面不再需要引入所有依赖的js文件，而只是引入一个sea.js，sea.js会处理所有依赖，加载相应的js文件，加载策略可以选择在渲染页面时一次性加载所有js文件，也可以按需加载（用到时才加载响应js）。还有就是<br>index.html加载了init模块，并使用此模块的initPage方法初始化页面数据。具体实现看下文介绍。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) = &#123;</div><div class="line"> </div><div class="line">    //原jquery.js代码...</div><div class="line"> </div><div class="line">    module.exports = $.noConflict(true);</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//init.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">    var m1 = require(&apos;module1&apos;);</div><div class="line"> </div><div class="line">    exports.initPage = function() &#123;</div><div class="line">        $(&apos;.content&apos;).html(m1.run());    </div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module1.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">    var m2 = require(&apos;module2&apos;);</div><div class="line">    var m3 = require(&apos;module3&apos;);</div><div class="line"> </div><div class="line">    exports.run = function() &#123;</div><div class="line">        return $.merge([&apos;module1&apos;], $.merge(m2.run(), m3.run()));    </div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module2.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    exports.run = function() &#123;</div><div class="line">        return [&apos;module2&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module3.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">    var m4 = require(&apos;module4&apos;);</div><div class="line"> </div><div class="line">    exports.run = function() &#123;</div><div class="line">        return $.merge([&apos;module3&apos;], m4.run());    </div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module4.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    exports.run = function() &#123;</div><div class="line">        return [&apos;module4&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>通过上面的js文件，我们发现js代码以模块进行组织，各个模块通过require引入自己依赖的模块，这样代码清晰明了。</p>
-<h2 id="下载及安装"><a href="#下载及安装" class="headerlink" title="下载及安装"></a>下载及安装</h2><p>要在项目中使用SeaJS，你所有需要做的准备工作就是下载sea.js然后放到你项目的某个位置。</p>
-<p>SeaJS项目目前托管在GitHub上，主页为 <a href="https://github.com/seajs/seajs/" target="_blank" rel="external">https://github.com/seajs/seajs/</a> 。可以到其git库的build目录下下载sea.js（已压缩）或sea-debug.js（未压缩）。</p>
-<p>下载完成后放到项目的相应位置，然后在页面中引入，你就可以使用SeaJS了。</p>
-<h2 id="SeaJS基本开发原则"><a href="#SeaJS基本开发原则" class="headerlink" title="SeaJS基本开发原则"></a>SeaJS基本开发原则</h2><p>在讨论SeaJS的具体使用前，先介绍一下SeaJS的模块化理念和开发原则。</p>
-<p>使用SeaJS开发JavaScript的基本原则就是：一切皆为模块。引入SeaJS后，编写JavaScript代码就变成了编写一个又一个模块，SeaJS中模块的概念有点类似于面向对象中的类——模块可以拥有数据和方法，数据和方法可以定义为公共或私有，公共数据和方法可以供别的模块调用。</p>
-<p>另外，每个模块应该都定义在一个单独js文件中，即一个对应一个模块。</p>
-<h2 id="模块的定义及编写"><a href="#模块的定义及编写" class="headerlink" title="模块的定义及编写"></a>模块的定义及编写</h2><h4 id="模块定义函数define"><a href="#模块定义函数define" class="headerlink" title="模块定义函数define"></a>模块定义函数define</h4><p>SeaJS中使用“define”函数定义一个模块。下面是SeaJS的官方示例：</p>
-<pre><code>define(function(require, exports, module) {
-//code of the module...
-});
-</code></pre><p>上述的函数给了三个参数,意思分别如下：</p>
-<ul>
-<li>require——模块加载函数，用于记载依赖模块。</li>
-<li>exports——接口点，将数据或方法定义在其上则将其暴露给外部调用。</li>
-<li>module——模块的元数据。</li>
-</ul>
-<p>这三个参数可以根据需要选择是否需要显示指定。</p>
-<p>下面说一下module。module是一个对象，存储了模块的元信息，具体如下：</p>
-<ul>
-<li>module.id——模块的ID。</li>
-<li>module.dependencies——一个数组，存储了此模块依赖的所有模块的ID列表。</li>
-<li>module.exports——与exports指向同一个对象。</li>
-</ul>
-<h4 id="三种编写模块的模式"><a href="#三种编写模块的模式" class="headerlink" title="三种编写模块的模式"></a>三种编写模块的模式</h4><p>第一种定义模块的模式是基于exports的模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    var a = require(&apos;a&apos;); //引入a模块</div><div class="line">    var b = require(&apos;b&apos;); //引入b模块</div><div class="line"> </div><div class="line">    var data1 = 1; //私有数据</div><div class="line"> </div><div class="line">    var func1 = function() &#123; //私有方法</div><div class="line">        return a.run(data1);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    exports.data2 = 2; //公共数据</div><div class="line"> </div><div class="line">    exports.func2 = function() &#123; //公共方法</div><div class="line">        return &apos;hello&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>上面是一种比较“正宗”的模块定义模式。除了将公共数据和方法附加在exports上，也可以直接返回一个对象表示模块，如下面的代码与上面的代码功能相同：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">define(function(require) &#123;</div><div class="line">    var a = require(&apos;a&apos;); //引入a模块</div><div class="line">    var b = require(&apos;b&apos;); //引入b模块</div><div class="line"> </div><div class="line">    var data1 = 1; //私有数据</div><div class="line"> </div><div class="line">    var func1 = function() &#123; //私有方法</div><div class="line">        return a.run(data1);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    return &#123;</div><div class="line">        data2: 2,</div><div class="line">        func2: function() &#123;</div><div class="line">            return &apos;hello&apos;;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>如果模块定义没有其它代码，只返回一个对象，还可以有如下简化写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(&#123;</div><div class="line">    data: 1,</div><div class="line">    func: function() &#123;</div><div class="line">        return &apos;hello&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>第三种方法对于定义纯JSON数据的模块非常合适。</p>
-<h2 id="模块的载入和引用"><a href="#模块的载入和引用" class="headerlink" title="模块的载入和引用"></a>模块的载入和引用</h2><p>绝对路径：</p>
-<pre><code>require(&quot;http://example/js/a&quot;);
-</code></pre><p>相对路径：</p>
-<pre><code>require(&quot;./c&quot;);
-</code></pre><p>根据应用场景的不同，SeaJS提供了三个载入模块的API，分别是seajs.use，require和require.async，下面分别介绍。</p>
-<h4 id="seajs-use"><a href="#seajs-use" class="headerlink" title="seajs.use"></a>seajs.use</h4><p>seajs.use主要用于载入入口模块。入口模块相当于C程序的main函数，同时也是整个模块依赖树的根。上面在TinyApp小例子中，init就是入口模块。seajs.use用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//单一模式</div><div class="line">seajs.use(&apos;./a&apos;);</div><div class="line"> </div><div class="line">//回调模式</div><div class="line">seajs.use(&apos;./a&apos;, function(a) &#123;</div><div class="line">  a.run();</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//多模块模式</div><div class="line">seajs.use([&apos;./a&apos;, &apos;./b&apos;], function(a, b) &#123;</div><div class="line">  a.run();</div><div class="line">  b.run();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>一般seajs.use只用在页面载入入口模块，SeaJS会顺着入口模块解析所有依赖模块并将它们加载。如果入口模块只有一个，也可以通过给引入sea.js的script标签加入”data-main”属性来省略seajs.use，例如，上面TinyApp的index.html也可以改为如下写法会更简洁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;TinyApp&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;script src=&quot;./sea.js&quot; data-main=&quot;./init&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<h4 id="require"><a href="#require" class="headerlink" title="require"></a>require</h4><p>require是SeaJS主要的模块加载方法，当在一个模块中需要用到其它模块时一般用require加载：</p>
-<pre><code>var m = require(&apos;/path/to/module/file&apos;);
-</code></pre><p>这里简要介绍一下SeaJS的自动加载机制。上文说过，使用SeaJS后html只要包含sea.js即可，那么其它js文件是如何加载进来的呢？SeaJS会首先下载入口模块，然后顺着入口模块使用正则表达式匹配代码中所有的require，再根据require中的文件路径标识下载相应的js文件，对下载来的js文件再迭代进行类似操作。整个过程类似图的遍历操作（因为可能存在交叉循环依赖所以整个依赖数据结构是一个图而不是树）。</p>
-<p>明白了上面这一点，下面的规则就很好理解了：</p>
-<p>传给require的路径标识必须是字符串字面量，不能是表达式，如下面使用require的方法是错误的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">require(&apos;module&apos; + &apos;1&apos;);</div><div class="line"> </div><div class="line">require(&apos;Module&apos;.toLowerCase());</div></pre></td></tr></table></figure></p>
-<h4 id="require-async"><a href="#require-async" class="headerlink" title="require.async"></a>require.async</h4><p>上文说过SeaJS会在html页面打开时通过静态分析一次性记载所有需要的js文件，如果想要某个js文件在用到时才下载，可以使用require.async：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">require.async(&apos;/path/to/module/file&apos;, function(m) &#123;</div><div class="line">    //code of callback...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>这样只有在用到这个模块时，对应的js文件才会被下载，也就实现了JavaScript代码的按需加载。</p>
-<h2 id="SeaJS的全局配置"><a href="#SeaJS的全局配置" class="headerlink" title="SeaJS的全局配置"></a>SeaJS的全局配置</h2><p>SeaJS提供了一个seajs.config方法可以设置全局配置，接收一个表示全局配置的配置对象。具体使用方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    base: &apos;path/to/jslib/&apos;,</div><div class="line">    alias: &#123;</div><div class="line">      &apos;app&apos;: &apos;path/to/app/&apos;</div><div class="line">    &#125;,</div><div class="line">    charset: &apos;utf-8&apos;,</div><div class="line">    timeout: 20000,</div><div class="line">    debug: false</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>这里base表示的路径是基址路径。假如基址路径的地址是 example.com/js/3-party/ ，在执行下面的代码的时候：</p>
-<pre><code>var $ = require(&apos;jquery&apos;);
-</code></pre><p>会载入  example.com/js/3-party/jquery.js 。</p>
-<p>alias可以对较长的常用路径设置缩写。</p>
-<p>charset表示下载js时script标签的charset属性。</p>
-<p>timeout表示下载文件的最大时长，以毫秒为单位。</p>
-<p>debug表示是否工作在调试模式下。</p>
-<h2 id="一个完整的例子"><a href="#一个完整的例子" class="headerlink" title="一个完整的例子"></a>一个完整的例子</h2><p>上文说了那么多，知识点比较分散，所以最后我打算用一个完整的SeaJS例子把这些知识点串起来，方便朋友们归纳回顾。这个例子包含如下文件：</p>
-<ul>
-<li>index.html——主页面。</li>
-<li>sea.js——SeaJS脚本。</li>
-<li>init.js——init模块，入口模块，依赖data、jquery、style三个模块。由主页面载入。</li>
-<li>data.js——data模块，纯json数据模块，由init载入。</li>
-<li>jquery.js——jquery模块，对 jQuery库的模块化封装，由init载入。</li>
-<li>style.css——CSS样式表，作为style模块由init载入。</li>
-<li>ea.js和jquery.js的代码属于库代码，就不赘述，这里只给出自己编写的文件的代码。</li>
-</ul>
-<p>html：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div id=&quot;content&quot;&gt;</div><div class="line">    &lt;p class=&quot;author&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;p class=&quot;blog&quot;&gt;&lt;a href=&quot;#&quot;&gt;Blog&lt;/a&gt;&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"> </div><div class="line">&lt;script src=&quot;./sea.js&quot; data-main=&quot;./init&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
-<p>css：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.author&#123;color:red;font-size:10pt;&#125;</div><div class="line">.blog&#123;font-size:10pt;&#125;</div></pre></td></tr></table></figure></p>
-<p>javascript：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//init.js</div><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    var $ = require(&apos;./jquery&apos;);</div><div class="line">    var data = require(&apos;./data&apos;);</div><div class="line">    var css = require(&apos;./style.css&apos;);</div><div class="line"> </div><div class="line">    $(&apos;.author&apos;).html(data.author);</div><div class="line">    $(&apos;.blog&apos;).attr(&apos;href&apos;, data.blog);</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//data.js</div><div class="line">define(&#123;</div><div class="line">    author: &apos;Ktig&apos;,</div><div class="line">    blog: &apos;http://Ktig.github.io&apos;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<p>效果如下：<br><img src="http://img1.ph.126.net/ReBlcZoT9JbqQcdVfpirIQ==/6632174973908016457.jpg" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/28/sea/" class="archive-article-date">
-  	<time datetime="2016-10-28T12:45:56.490Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sea-js/">sea.js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-webpack" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -405,6 +279,203 @@ React.render(
 
 
   
+    <article id="post-MarkDown" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/13/MarkDown/">MarkDown指令的简介</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 一级标题</div><div class="line">## 二级标题 </div><div class="line">### 三级标题</div></pre></td></tr></table></figure>
+<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><ul>
+<li><p>无序列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* EDG</div><div class="line">* RNG</div><div class="line">* IM</div></pre></td></tr></table></figure>
+</li>
+<li><p>有序列表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. one</div><div class="line">2. two</div><div class="line">3. three</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; 这是一个引用</div></pre></td></tr></table></figure>
+<h2 id="链接与图片"><a href="#链接与图片" class="headerlink" title="链接与图片"></a>链接与图片</h2><ul>
+<li><p>链接</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[百度一下，你就知道](https://www.baidu.com)</div></pre></td></tr></table></figure>
+</li>
+<li><p>图片</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![百度图标](https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h2 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">*这是斜体*</div><div class="line">**这是粗体**</div></pre></td></tr></table></figure>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">| Tables        | Are           | Cool  |</div><div class="line">| ------------- |:-------------:| -----:|</div><div class="line">| col 3 is      | right-aligned | $1600 |</div><div class="line">| col 2 is      | centered      |   $12 |</div><div class="line">| zebra stripes | are neat      |    $1 |</div></pre></td></tr></table></figure>
+<h2 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">` var a = 20;`</div></pre></td></tr></table></figure>
+<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><pre><code>***
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/13/MarkDown/" class="archive-article-date">
+  	<time datetime="2016-10-13T08:02:56.446Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MarkDown/">MarkDown</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-sea" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/03/01/sea/">使用SeaJS实现模块化JavaScript开发</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是sea-js？"><a href="#什么是sea-js？" class="headerlink" title="什么是sea.js？"></a>什么是sea.js？</h2><p>SeaJS是一个遵循CommonJS规范的JavaScript模块加载框架，可以实现JavaScript的模块化开发及加载机制。与jQuery等JavaScript框架不同，SeaJS不会扩展封装语言特性，而只是实现JavaScript的模块化及按模块加载。SeaJS的主要目的是令JavaScript开发模块化并可以轻松愉悦进行加载，将前端工程师从繁重的JavaScript文件及对象依赖处理中解放出来，可以专注于代码本身的逻辑。SeaJS可以与jQuery这类框架完美集成。使用SeaJS可以提高JavaScript代码的可读性和清晰度，解决目前JavaScript编程中普遍存在的依赖关系混乱和代码纠缠等问题，方便代码的编写和维护。</p>
+<h2 id="模块化开发规范"><a href="#模块化开发规范" class="headerlink" title="模块化开发规范"></a>模块化开发规范</h2><p>上述提到了CommenJS的规范就是模块化开发规范之一，当然还有诸如CMD、AMD等规范。</p>
+<ul>
+<li>CMD规范——sea.js（国产）——源于CommenJS</li>
+<li>AMD规范——require.js（国外）</li>
+<li>CommonJS规范——node.js </li>
+</ul>
+<h2 id="传统模式-vs-SeaJS模块化"><a href="#传统模式-vs-SeaJS模块化" class="headerlink" title="传统模式 vs SeaJS模块化"></a>传统模式 vs SeaJS模块化</h2><p>假设我们现在正在开发一个Web应用TinyApp，我们决定在TinyApp中使用jQuery框架。TinyApp的首页会用到module1.js，module1.js依赖module2.js和module3.js，同时module3.js依赖module4.js。</p>
+<h4 id="传统模式"><a href="#传统模式" class="headerlink" title="传统模式"></a>传统模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var module1 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return $.merge([&apos;module1&apos;], $.merge(module2.run(), module3.run()));</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">//module2.js</div><div class="line">var module2 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return [&apos;module2&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">//module3.js</div><div class="line">var module3 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return $.merge([&apos;module3&apos;], module4.run());</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"> </div><div class="line">//module4.js</div><div class="line">var module4 = &#123;</div><div class="line">    run: function() &#123;</div><div class="line">        return [&apos;module4&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此时index.html需要引用module1.js及其所有下层依赖（注意顺序）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;TinyApp&lt;/title&gt;</div><div class="line">    &lt;script src=&quot;./jquery-min.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module4.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module2.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module3.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script src=&quot;./module1.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">        $(&apos;.content&apos;).html(module1.run());</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>随着项目的进行，js文件会越来越多，依赖关系也会越来越复杂，使得js代码和html里的script列表往往变得难以维护。</p>
+<h4 id="SeaJS模块化开发"><a href="#SeaJS模块化开发" class="headerlink" title="SeaJS模块化开发"></a>SeaJS模块化开发</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;TinyApp&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;script src=&quot;./sea.js&quot;&gt;&lt;/script&gt;</div><div class="line">    &lt;script&gt;</div><div class="line">        seajs.use(&apos;./init&apos;, function(init) &#123;</div><div class="line">            init.initPage();</div><div class="line">        &#125;);</div><div class="line">    &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>可以看到html页面不再需要引入所有依赖的js文件，而只是引入一个sea.js，sea.js会处理所有依赖，加载相应的js文件，加载策略可以选择在渲染页面时一次性加载所有js文件，也可以按需加载（用到时才加载响应js）。还有就是<br>index.html加载了init模块，并使用此模块的initPage方法初始化页面数据。具体实现看下文介绍。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) = &#123;</div><div class="line"> </div><div class="line">    //原jquery.js代码...</div><div class="line"> </div><div class="line">    module.exports = $.noConflict(true);</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//init.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">    var m1 = require(&apos;module1&apos;);</div><div class="line"> </div><div class="line">    exports.initPage = function() &#123;</div><div class="line">        $(&apos;.content&apos;).html(m1.run());    </div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module1.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">    var m2 = require(&apos;module2&apos;);</div><div class="line">    var m3 = require(&apos;module3&apos;);</div><div class="line"> </div><div class="line">    exports.run = function() &#123;</div><div class="line">        return $.merge([&apos;module1&apos;], $.merge(m2.run(), m3.run()));    </div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module2.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    exports.run = function() &#123;</div><div class="line">        return [&apos;module2&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module3.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    var $ = require(&apos;jquery&apos;);</div><div class="line">    var m4 = require(&apos;module4&apos;);</div><div class="line"> </div><div class="line">    exports.run = function() &#123;</div><div class="line">        return $.merge([&apos;module3&apos;], m4.run());    </div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//module4.js</div><div class="line">define(function(require, exports, module) = &#123;</div><div class="line">    exports.run = function() &#123;</div><div class="line">        return [&apos;module4&apos;];</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>通过上面的js文件，我们发现js代码以模块进行组织，各个模块通过require引入自己依赖的模块，这样代码清晰明了。</p>
+<h2 id="下载及安装"><a href="#下载及安装" class="headerlink" title="下载及安装"></a>下载及安装</h2><p>要在项目中使用SeaJS，你所有需要做的准备工作就是下载sea.js然后放到你项目的某个位置。</p>
+<p>SeaJS项目目前托管在GitHub上，主页为 <a href="https://github.com/seajs/seajs/" target="_blank" rel="external">https://github.com/seajs/seajs/</a> 。可以到其git库的build目录下下载sea.js（已压缩）或sea-debug.js（未压缩）。</p>
+<p>下载完成后放到项目的相应位置，然后在页面中引入，你就可以使用SeaJS了。</p>
+<h2 id="SeaJS基本开发原则"><a href="#SeaJS基本开发原则" class="headerlink" title="SeaJS基本开发原则"></a>SeaJS基本开发原则</h2><p>在讨论SeaJS的具体使用前，先介绍一下SeaJS的模块化理念和开发原则。</p>
+<p>使用SeaJS开发JavaScript的基本原则就是：一切皆为模块。引入SeaJS后，编写JavaScript代码就变成了编写一个又一个模块，SeaJS中模块的概念有点类似于面向对象中的类——模块可以拥有数据和方法，数据和方法可以定义为公共或私有，公共数据和方法可以供别的模块调用。</p>
+<p>另外，每个模块应该都定义在一个单独js文件中，即一个对应一个模块。</p>
+<h2 id="模块的定义及编写"><a href="#模块的定义及编写" class="headerlink" title="模块的定义及编写"></a>模块的定义及编写</h2><h4 id="模块定义函数define"><a href="#模块定义函数define" class="headerlink" title="模块定义函数define"></a>模块定义函数define</h4><p>SeaJS中使用“define”函数定义一个模块。下面是SeaJS的官方示例：</p>
+<pre><code>define(function(require, exports, module) {
+//code of the module...
+});
+</code></pre><p>上述的函数给了三个参数,意思分别如下：</p>
+<ul>
+<li>require——模块加载函数，用于记载依赖模块。</li>
+<li>exports——接口点，将数据或方法定义在其上则将其暴露给外部调用。</li>
+<li>module——模块的元数据。</li>
+</ul>
+<p>这三个参数可以根据需要选择是否需要显示指定。</p>
+<p>下面说一下module。module是一个对象，存储了模块的元信息，具体如下：</p>
+<ul>
+<li>module.id——模块的ID。</li>
+<li>module.dependencies——一个数组，存储了此模块依赖的所有模块的ID列表。</li>
+<li>module.exports——与exports指向同一个对象。</li>
+</ul>
+<h4 id="三种编写模块的模式"><a href="#三种编写模块的模式" class="headerlink" title="三种编写模块的模式"></a>三种编写模块的模式</h4><p>第一种定义模块的模式是基于exports的模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    var a = require(&apos;a&apos;); //引入a模块</div><div class="line">    var b = require(&apos;b&apos;); //引入b模块</div><div class="line"> </div><div class="line">    var data1 = 1; //私有数据</div><div class="line"> </div><div class="line">    var func1 = function() &#123; //私有方法</div><div class="line">        return a.run(data1);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    exports.data2 = 2; //公共数据</div><div class="line"> </div><div class="line">    exports.func2 = function() &#123; //公共方法</div><div class="line">        return &apos;hello&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>上面是一种比较“正宗”的模块定义模式。除了将公共数据和方法附加在exports上，也可以直接返回一个对象表示模块，如下面的代码与上面的代码功能相同：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">define(function(require) &#123;</div><div class="line">    var a = require(&apos;a&apos;); //引入a模块</div><div class="line">    var b = require(&apos;b&apos;); //引入b模块</div><div class="line"> </div><div class="line">    var data1 = 1; //私有数据</div><div class="line"> </div><div class="line">    var func1 = function() &#123; //私有方法</div><div class="line">        return a.run(data1);</div><div class="line">    &#125;</div><div class="line"> </div><div class="line">    return &#123;</div><div class="line">        data2: 2,</div><div class="line">        func2: function() &#123;</div><div class="line">            return &apos;hello&apos;;</div><div class="line">        &#125;</div><div class="line">    &#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>如果模块定义没有其它代码，只返回一个对象，还可以有如下简化写法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">define(&#123;</div><div class="line">    data: 1,</div><div class="line">    func: function() &#123;</div><div class="line">        return &apos;hello&apos;;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>第三种方法对于定义纯JSON数据的模块非常合适。</p>
+<h2 id="模块的载入和引用"><a href="#模块的载入和引用" class="headerlink" title="模块的载入和引用"></a>模块的载入和引用</h2><p>绝对路径：</p>
+<pre><code>require(&quot;http://example/js/a&quot;);
+</code></pre><p>相对路径：</p>
+<pre><code>require(&quot;./c&quot;);
+</code></pre><p>根据应用场景的不同，SeaJS提供了三个载入模块的API，分别是seajs.use，require和require.async，下面分别介绍。</p>
+<h4 id="seajs-use"><a href="#seajs-use" class="headerlink" title="seajs.use"></a>seajs.use</h4><p>seajs.use主要用于载入入口模块。入口模块相当于C程序的main函数，同时也是整个模块依赖树的根。上面在TinyApp小例子中，init就是入口模块。seajs.use用法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//单一模式</div><div class="line">seajs.use(&apos;./a&apos;);</div><div class="line"> </div><div class="line">//回调模式</div><div class="line">seajs.use(&apos;./a&apos;, function(a) &#123;</div><div class="line">  a.run();</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//多模块模式</div><div class="line">seajs.use([&apos;./a&apos;, &apos;./b&apos;], function(a, b) &#123;</div><div class="line">  a.run();</div><div class="line">  b.run();</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>一般seajs.use只用在页面载入入口模块，SeaJS会顺着入口模块解析所有依赖模块并将它们加载。如果入口模块只有一个，也可以通过给引入sea.js的script标签加入”data-main”属性来省略seajs.use，例如，上面TinyApp的index.html也可以改为如下写法会更简洁：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;TinyApp&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">    &lt;p class=&quot;content&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;script src=&quot;./sea.js&quot; data-main=&quot;./init&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<h4 id="require"><a href="#require" class="headerlink" title="require"></a>require</h4><p>require是SeaJS主要的模块加载方法，当在一个模块中需要用到其它模块时一般用require加载：</p>
+<pre><code>var m = require(&apos;/path/to/module/file&apos;);
+</code></pre><p>这里简要介绍一下SeaJS的自动加载机制。上文说过，使用SeaJS后html只要包含sea.js即可，那么其它js文件是如何加载进来的呢？SeaJS会首先下载入口模块，然后顺着入口模块使用正则表达式匹配代码中所有的require，再根据require中的文件路径标识下载相应的js文件，对下载来的js文件再迭代进行类似操作。整个过程类似图的遍历操作（因为可能存在交叉循环依赖所以整个依赖数据结构是一个图而不是树）。</p>
+<p>明白了上面这一点，下面的规则就很好理解了：</p>
+<p>传给require的路径标识必须是字符串字面量，不能是表达式，如下面使用require的方法是错误的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">require(&apos;module&apos; + &apos;1&apos;);</div><div class="line"> </div><div class="line">require(&apos;Module&apos;.toLowerCase());</div></pre></td></tr></table></figure></p>
+<h4 id="require-async"><a href="#require-async" class="headerlink" title="require.async"></a>require.async</h4><p>上文说过SeaJS会在html页面打开时通过静态分析一次性记载所有需要的js文件，如果想要某个js文件在用到时才下载，可以使用require.async：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">require.async(&apos;/path/to/module/file&apos;, function(m) &#123;</div><div class="line">    //code of callback...</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这样只有在用到这个模块时，对应的js文件才会被下载，也就实现了JavaScript代码的按需加载。</p>
+<h2 id="SeaJS的全局配置"><a href="#SeaJS的全局配置" class="headerlink" title="SeaJS的全局配置"></a>SeaJS的全局配置</h2><p>SeaJS提供了一个seajs.config方法可以设置全局配置，接收一个表示全局配置的配置对象。具体使用方法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">seajs.config(&#123;</div><div class="line">    base: &apos;path/to/jslib/&apos;,</div><div class="line">    alias: &#123;</div><div class="line">      &apos;app&apos;: &apos;path/to/app/&apos;</div><div class="line">    &#125;,</div><div class="line">    charset: &apos;utf-8&apos;,</div><div class="line">    timeout: 20000,</div><div class="line">    debug: false</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>这里base表示的路径是基址路径。假如基址路径的地址是 example.com/js/3-party/ ，在执行下面的代码的时候：</p>
+<pre><code>var $ = require(&apos;jquery&apos;);
+</code></pre><p>会载入  example.com/js/3-party/jquery.js 。</p>
+<p>alias可以对较长的常用路径设置缩写。</p>
+<p>charset表示下载js时script标签的charset属性。</p>
+<p>timeout表示下载文件的最大时长，以毫秒为单位。</p>
+<p>debug表示是否工作在调试模式下。</p>
+<h2 id="一个完整的例子"><a href="#一个完整的例子" class="headerlink" title="一个完整的例子"></a>一个完整的例子</h2><p>上文说了那么多，知识点比较分散，所以最后我打算用一个完整的SeaJS例子把这些知识点串起来，方便朋友们归纳回顾。这个例子包含如下文件：</p>
+<ul>
+<li>index.html——主页面。</li>
+<li>sea.js——SeaJS脚本。</li>
+<li>init.js——init模块，入口模块，依赖data、jquery、style三个模块。由主页面载入。</li>
+<li>data.js——data模块，纯json数据模块，由init载入。</li>
+<li>jquery.js——jquery模块，对 jQuery库的模块化封装，由init载入。</li>
+<li>style.css——CSS样式表，作为style模块由init载入。</li>
+<li>ea.js和jquery.js的代码属于库代码，就不赘述，这里只给出自己编写的文件的代码。</li>
+</ul>
+<p>html：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE HTML&gt;</div><div class="line">&lt;html lang=&quot;zh-CN&quot;&gt;</div><div class="line">&lt;head&gt;</div><div class="line">    &lt;meta charset=&quot;UTF-8&quot;&gt;</div><div class="line">    &lt;title&gt;&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div id=&quot;content&quot;&gt;</div><div class="line">    &lt;p class=&quot;author&quot;&gt;&lt;/p&gt;</div><div class="line">    &lt;p class=&quot;blog&quot;&gt;&lt;a href=&quot;#&quot;&gt;Blog&lt;/a&gt;&lt;/p&gt;</div><div class="line">&lt;/div&gt;</div><div class="line"> </div><div class="line">&lt;script src=&quot;./sea.js&quot; data-main=&quot;./init&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure></p>
+<p>css：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">.author&#123;color:red;font-size:10pt;&#125;</div><div class="line">.blog&#123;font-size:10pt;&#125;</div></pre></td></tr></table></figure></p>
+<p>javascript：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//init.js</div><div class="line">define(function(require, exports, module) &#123;</div><div class="line">    var $ = require(&apos;./jquery&apos;);</div><div class="line">    var data = require(&apos;./data&apos;);</div><div class="line">    var css = require(&apos;./style.css&apos;);</div><div class="line"> </div><div class="line">    $(&apos;.author&apos;).html(data.author);</div><div class="line">    $(&apos;.blog&apos;).attr(&apos;href&apos;, data.blog);</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">//data.js</div><div class="line">define(&#123;</div><div class="line">    author: &apos;Ktig&apos;,</div><div class="line">    blog: &apos;http://Ktig.github.io&apos;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>效果如下：<br><img src="http://img1.ph.126.net/ReBlcZoT9JbqQcdVfpirIQ==/6632174973908016457.jpg" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/03/01/sea/" class="archive-article-date">
+  	<time datetime="2016-03-01T04:33:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-03-01</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sea-js/">sea.js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -415,7 +486,7 @@ React.render(
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/26/git/">开始Git学习</a>
+      <a class="article-title" href="/2015/11/25/git/">开始Git学习</a>
     </h1>
   
 
@@ -483,84 +554,13 @@ Switched to branch &apos;master&apos;
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/10/26/git/" class="archive-article-date">
-  	<time datetime="2016-10-26T13:51:57.074Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-26</time>
+      <a href="/2015/11/25/git/" class="archive-article-date">
+  	<time datetime="2015-11-25T04:10:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-11-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-MarkDown" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/13/MarkDown/">MarkDown指令的简介</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># 一级标题</div><div class="line">## 二级标题 </div><div class="line">### 三级标题</div></pre></td></tr></table></figure>
-<h2 id="列表"><a href="#列表" class="headerlink" title="列表"></a>列表</h2><ul>
-<li><p>无序列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">* EDG</div><div class="line">* RNG</div><div class="line">* IM</div></pre></td></tr></table></figure>
-</li>
-<li><p>有序列表</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. one</div><div class="line">2. two</div><div class="line">3. three</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt; 这是一个引用</div></pre></td></tr></table></figure>
-<h2 id="链接与图片"><a href="#链接与图片" class="headerlink" title="链接与图片"></a>链接与图片</h2><ul>
-<li><p>链接</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[百度一下，你就知道](https://www.baidu.com)</div></pre></td></tr></table></figure>
-</li>
-<li><p>图片</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">![百度图标](https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo/bd_logo1_31bdc765.png)</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<h2 id="粗体与斜体"><a href="#粗体与斜体" class="headerlink" title="粗体与斜体"></a>粗体与斜体</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">*这是斜体*</div><div class="line">**这是粗体**</div></pre></td></tr></table></figure>
-<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">| Tables        | Are           | Cool  |</div><div class="line">| ------------- |:-------------:| -----:|</div><div class="line">| col 3 is      | right-aligned | $1600 |</div><div class="line">| col 2 is      | centered      |   $12 |</div><div class="line">| zebra stripes | are neat      |    $1 |</div></pre></td></tr></table></figure>
-<h2 id="代码框"><a href="#代码框" class="headerlink" title="代码框"></a>代码框</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">` var a = 20;`</div></pre></td></tr></table></figure>
-<h2 id="分割线"><a href="#分割线" class="headerlink" title="分割线"></a>分割线</h2><pre><code>***
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/13/MarkDown/" class="archive-article-date">
-  	<time datetime="2016-10-13T08:02:56.446Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MarkDown/">MarkDown</a></li></ul>
 	</div>
 
       
