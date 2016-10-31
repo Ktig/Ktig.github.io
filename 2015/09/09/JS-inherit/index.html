@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>JS对象继承的几种方式（构造函数） | Ktig`s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
+再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;　　　　this.colo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS对象继承的几种方式（构造函数）">
+<meta property="og:url" content="http://yoursite.com/2015/09/09/JS-inherit/index.html">
+<meta property="og:site_name" content="Ktig`s blog">
+<meta property="og:description" content="首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
+再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;　　　　this.colo">
+<meta property="og:updated_time" content="2016-10-31T03:44:19.330Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS对象继承的几种方式（构造函数）">
+<meta name="twitter:description" content="首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
+再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;　　　　this.colo">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="https://avatars2.githubusercontent.com/u/22739126?v=3&amp;s=466" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Ktig</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">心之所指</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Ktig" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="google" target="_blank" href="#" title="google">google</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/han-guang-30-89" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Ktig</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="https://avatars2.githubusercontent.com/u/22739126?v=3&amp;s=466" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Ktig</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">心之所指</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Ktig" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="google" target="_blank" href="#" title="google">google</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/han-guang-30-89" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-JS-inherit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS对象继承的几种方式（构造函数）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：<br>先来一个“动物”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Animal()&#123;</div><div class="line">　　　　this.species = &quot;动物&quot;;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
+<p>再来一个“狗”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function Dog(name,color)&#123;</div><div class="line">　　　　this.name = name;</div><div class="line">　　　　this.color = color;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
+<p>思考：怎么才能使“狗”继承“动物”呢？</p>
+<h2 id="构造函数绑定继承"><a href="#构造函数绑定继承" class="headerlink" title="构造函数绑定继承"></a>构造函数绑定继承</h2><p>第一种方法也是最简单的方法，使用call或apply方法，将父对象的构造函数绑定在子对象上，即在子对象构造函数中加一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function Dog(name,color)&#123;</div><div class="line">　　　　Animal.apply(this, arguments);</div><div class="line">　　　　this.name = name;</div><div class="line">　　　　this.color = color;</div><div class="line">　　&#125;</div><div class="line">　　var erha = new Dat(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
+<h2 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a>原型继承</h2><p>第二种方法更常见，使用prototype属性。如果”狗”的prototype对象，指向一个Animal的实例，那么所有”狗”的实例，就能继承Animal了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Dog.prototype = new Animal();</div><div class="line">　　Dog.prototype.constructor = Dog;</div><div class="line">　　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
+<p>代码的第一行，我们将Dog的prototype对象指向一个Animal的实例。它相当于完全删除了prototype 对象原先的值，然后赋予一个新值。</p>
+<pre><code>Dog.prototype.constructor = Dog;
+</code></pre><p>对于第二行，任何一个prototype对象都有一个constructor属性，指向它的构造函数。如果没有”Dog.prototype = new Animal();”这一行，Dog.prototype.constructor是指向Dog的；加了这一行以后，Dog.prototype.constructor指向Animal。</p>
+<p>更重要的是，每一个实例也有一个constructor属性，默认调用prototype对象的constructor属性。</p>
+<pre><code>alert(erha.constructor == Dog.prototype.constructor); // true
+</code></pre><h3 id="直接继承prototype"><a href="#直接继承prototype" class="headerlink" title="直接继承prototype"></a>直接继承prototype</h3><p>第三种方法是对第二种方法的改进。由于Animal对象中，不变的属性都可以直接写入Animal.prototype。所以，我们也可以让Dog()跳过 Animal()，直接继承Animal.prototype。</p>
+<p>现在，我们先将Animal对象改写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　function Animal()&#123; &#125;</div><div class="line">　Animal.prototype.species = &quot;动物&quot;;</div></pre></td></tr></table></figure></p>
+<p>然后，将Dog的prototype对象，然后指向Animal的prototype对象，这样就完成了继承。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　Dog.prototype = Animal.prototype;</div><div class="line">　Dog.prototype.constructor = Dog;</div><div class="line">　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
+<p>与前一种方法相比，这样做的优点是效率比较高（不用执行和建立Animal的实例了），比较省内存。缺点是 Dog.prototype和Animal.prototype现在指向了同一个对象，那么任何对Dog.prototype的修改，都会反映到Animal.prototype。</p>
+<p>其实这种方式还是有问题的，对于第二行代码实际上把Animal.prototype对象的constructor属性也改掉了！相当于会出现以下结果：</p>
+<pre><code>　alert(Animal.prototype.constructor); // Dog
+</code></pre><h2 id="利用空对象作为中介实现继承"><a href="#利用空对象作为中介实现继承" class="headerlink" title="利用空对象作为中介实现继承"></a>利用空对象作为中介实现继承</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　var F = function()&#123;&#125;;</div><div class="line">　F.prototype = Animal.prototype;</div><div class="line">　Dog.prototype = new F();</div><div class="line">　Dog.prototype.constructor = Dog;</div></pre></td></tr></table></figure>
+<p>这种方式是为了更好的解决直接原型继承的方式。F是空对象，所以几乎不占内存。这时，修改Dog的prototype对象，就不会影响到Animal的prototype对象。所以：</p>
+<pre><code>alert(Animal.prototype.constructor); // Animal
+</code></pre><p>我们将上面的方法，封装成一个函数，便于使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function extend(Child, Parent) &#123;</div><div class="line">　　　var F = function()&#123;&#125;;</div><div class="line">　　　F.prototype = Parent.prototype;</div><div class="line">　　　Child.prototype = new F();</div><div class="line">　　　Child.prototype.constructor = Child;</div><div class="line">　　　Child.uber = Parent.prototype;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
+<p>使用的时候，方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">extend(Dog,Animal);</div><div class="line">　　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
+<p>这个extend函数，就是YUI库如何实现继承的方法。</p>
+<h2 id="拷贝继承"><a href="#拷贝继承" class="headerlink" title="拷贝继承"></a>拷贝继承</h2><p>上面是采用prototype对象，实现继承。我们也可以换一种思路，纯粹采用”拷贝”方法实现继承。简单说，如果把父对象的所有属性和方法，拷贝进子对象，不也能够实现继承吗？这样我们就有了第五种方法。</p>
+<p>首先，还是把Animal的所有不变属性，都放到它的prototype对象上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function Animal()&#123;&#125;</div><div class="line">　Animal.prototype.species = &quot;动物&quot;;</div></pre></td></tr></table></figure></p>
+<p>然后，再写一个函数，实现属性拷贝的目的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function extend2(Child, Parent) &#123;</div><div class="line">　　　var p = Parent.prototype;</div><div class="line">　　　var c = Child.prototype;</div><div class="line">　　　for (var i in p) &#123;</div><div class="line">　　　　　c[i] = p[i];</div><div class="line">　　　　　&#125;</div><div class="line">　　　c.uber = p;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
+<p>这个函数的作用，就是将父对象的prototype对象中的属性，一一拷贝给Child对象的prototype对象。</p>
+<p>使用的时候，这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　extend2(Dog, Animal);</div><div class="line">　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/09/JS-inherit/" class="archive-article-date">
+  	<time datetime="2015-09-09T05:28:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2015/10/12/javascript-templating/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          javascript模板引擎的介绍
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/08/25/MarkDown/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MarkDown指令的简介</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Ktig
+    	</div>
+      	<div class="footer-right">	
+              <span>本站的主题：<span style='color:green'>Yilia</span></span>
+          </span>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接1</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接2</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接3</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接4</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接5</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">友情链接6</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">未曾一次退败&lt;br&gt;&lt;br&gt;未尝得一知己</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
