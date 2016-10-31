@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>JS对象继承的几种方式（构造函数） | Ktig`s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
-再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;　　　　this.colo">
+  <meta name="description" content="什么是构造函数的继承首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
+再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS对象继承的几种方式（构造函数）">
 <meta property="og:url" content="http://yoursite.com/2015/09/09/JS-inherit/index.html">
 <meta property="og:site_name" content="Ktig`s blog">
-<meta property="og:description" content="首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
-再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;　　　　this.colo">
-<meta property="og:updated_time" content="2016-10-31T03:44:19.330Z">
+<meta property="og:description" content="什么是构造函数的继承首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
+再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;">
+<meta property="og:updated_time" content="2016-10-31T08:16:07.567Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS对象继承的几种方式（构造函数）">
-<meta name="twitter:description" content="首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
-再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;　　　　this.colo">
+<meta name="twitter:description" content="什么是构造函数的继承首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：先来一个“动物”对象的构造函数：123function Animal()&amp;#123;　　　　this.species = &amp;quot;动物&amp;quot;;　　&amp;#125;
+再来一个“狗”对象的构造函数：1234function Dog(name,color)&amp;#123;　　　　this.name = name;">
   
   
     <link rel="icon" href="/favicon.png">
@@ -164,7 +164,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：<br>先来一个“动物”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Animal()&#123;</div><div class="line">　　　　this.species = &quot;动物&quot;;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
+        <h2 id="什么是构造函数的继承"><a href="#什么是构造函数的继承" class="headerlink" title="什么是构造函数的继承"></a>什么是构造函数的继承</h2><p>首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：<br>先来一个“动物”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Animal()&#123;</div><div class="line">　　　　this.species = &quot;动物&quot;;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
 <p>再来一个“狗”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function Dog(name,color)&#123;</div><div class="line">　　　　this.name = name;</div><div class="line">　　　　this.color = color;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
 <p>思考：怎么才能使“狗”继承“动物”呢？</p>
 <h2 id="构造函数绑定继承"><a href="#构造函数绑定继承" class="headerlink" title="构造函数绑定继承"></a>构造函数绑定继承</h2><p>第一种方法也是最简单的方法，使用call或apply方法，将父对象的构造函数绑定在子对象上，即在子对象构造函数中加一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function Dog(name,color)&#123;</div><div class="line">　　　　Animal.apply(this, arguments);</div><div class="line">　　　　this.name = name;</div><div class="line">　　　　this.color = color;</div><div class="line">　　&#125;</div><div class="line">　　var erha = new Dat(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
@@ -215,11 +215,11 @@
   
 <nav id="article-nav">
   
-    <a href="/2015/10/12/javascript-templating/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/09/19/JS-inherit-2/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          javascript模板引擎的介绍
+          JS对象继承的几种方式（非构造函数）
         
       </div>
     </a>
