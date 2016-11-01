@@ -6,24 +6,30 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>JS对象继承的几种方式（非构造函数） | Ktig`s blog</title>
+  <title>通俗易懂学闭包 | Ktig`s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是非构造函数的继承比如，现在有一个对象，叫做”中国人”。123　var Chinese = &amp;#123;　　　　nation:&amp;apos;中国&amp;apos;　&amp;#125;;
-还有一个对象，叫做”医生”。123var Doctor =&amp;#123;　　　　career:&amp;apos;医生&amp;apos;　　&amp;#125;
-请问怎样才能让”医生”去继承”中国人”，也就是说，我怎样才能生成一个”中国医生”的对象">
+  <meta name="description" content="要学习闭包，需要一步一步的来。。。
+变量的作用域要理解闭包，一定要理解JS特殊的变量作用域
+变量的作用域就两种：局部变量和全局变量
+JS语言的特殊之处就是内部函数可以直接读取全局变量，如下：12345　　var n=999;　　function f1()&amp;#123;　　　　alert(n);　　&amp;#125;　　f1(); // 999
+而函数外部无法读取函数内的局部变量：1234　　functio">
 <meta property="og:type" content="article">
-<meta property="og:title" content="JS对象继承的几种方式（非构造函数）">
-<meta property="og:url" content="http://yoursite.com/2015/09/19/JS-inherit-2/index.html">
+<meta property="og:title" content="通俗易懂学闭包">
+<meta property="og:url" content="http://yoursite.com/2015/10/03/closure/index.html">
 <meta property="og:site_name" content="Ktig`s blog">
-<meta property="og:description" content="什么是非构造函数的继承比如，现在有一个对象，叫做”中国人”。123　var Chinese = &amp;#123;　　　　nation:&amp;apos;中国&amp;apos;　&amp;#125;;
-还有一个对象，叫做”医生”。123var Doctor =&amp;#123;　　　　career:&amp;apos;医生&amp;apos;　　&amp;#125;
-请问怎样才能让”医生”去继承”中国人”，也就是说，我怎样才能生成一个”中国医生”的对象">
-<meta property="og:updated_time" content="2016-10-31T08:16:08.388Z">
+<meta property="og:description" content="要学习闭包，需要一步一步的来。。。
+变量的作用域要理解闭包，一定要理解JS特殊的变量作用域
+变量的作用域就两种：局部变量和全局变量
+JS语言的特殊之处就是内部函数可以直接读取全局变量，如下：12345　　var n=999;　　function f1()&amp;#123;　　　　alert(n);　　&amp;#125;　　f1(); // 999
+而函数外部无法读取函数内的局部变量：1234　　functio">
+<meta property="og:updated_time" content="2016-11-01T01:57:23.996Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JS对象继承的几种方式（非构造函数）">
-<meta name="twitter:description" content="什么是非构造函数的继承比如，现在有一个对象，叫做”中国人”。123　var Chinese = &amp;#123;　　　　nation:&amp;apos;中国&amp;apos;　&amp;#125;;
-还有一个对象，叫做”医生”。123var Doctor =&amp;#123;　　　　career:&amp;apos;医生&amp;apos;　　&amp;#125;
-请问怎样才能让”医生”去继承”中国人”，也就是说，我怎样才能生成一个”中国医生”的对象">
+<meta name="twitter:title" content="通俗易懂学闭包">
+<meta name="twitter:description" content="要学习闭包，需要一步一步的来。。。
+变量的作用域要理解闭包，一定要理解JS特殊的变量作用域
+变量的作用域就两种：局部变量和全局变量
+JS语言的特殊之处就是内部函数可以直接读取全局变量，如下：12345　　var n=999;　　function f1()&amp;#123;　　　　alert(n);　　&amp;#125;　　f1(); // 999
+而函数外部无法读取函数内的局部变量：1234　　functio">
   
   
     <link rel="icon" href="/favicon.png">
@@ -149,7 +155,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-JS-inherit-2" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-closure" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -159,7 +165,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      JS对象继承的几种方式（非构造函数）
+      通俗易懂学闭包
     </h1>
   
 
@@ -167,39 +173,32 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="什么是非构造函数的继承"><a href="#什么是非构造函数的继承" class="headerlink" title="什么是非构造函数的继承"></a>什么是非构造函数的继承</h2><p>比如，现在有一个对象，叫做”中国人”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　var Chinese = &#123;</div><div class="line">　　　　nation:&apos;中国&apos;</div><div class="line">　&#125;;</div></pre></td></tr></table></figure></p>
-<p>还有一个对象，叫做”医生”。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var Doctor =&#123;</div><div class="line">　　　　career:&apos;医生&apos;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>请问怎样才能让”医生”去继承”中国人”，也就是说，我怎样才能生成一个”中国医生”的对象？</p>
-<p>这里要注意，这两个对象都是普通对象，不是构造函数，无法使用构造函数方法实现”继承”。</p>
-<h2 id="使用object-方法"><a href="#使用object-方法" class="headerlink" title="使用object()方法"></a>使用object()方法</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function object(o) &#123;</div><div class="line">　　　function F() &#123;&#125;</div><div class="line">　　　F.prototype = o;</div><div class="line">　　　return new F();</div><div class="line">　　&#125;</div></pre></td></tr></table></figure>
-<p>这个object()函数，其实只做一件事，就是把子对象的prototype属性，指向父对象，从而使得子对象与父对象连在一起。</p>
-<p>使用的时候，第一步先在父对象的基础上，生成子对象：</p>
-<pre><code>var Doctor = object(Chinese);
-</code></pre><p>然后，再加上子对象本身的属性：</p>
-<pre><code>Doctor.career = &apos;医生&apos;;
-</code></pre><p>这时，子对象已经继承了父对象的属性了。</p>
-<pre><code>alert(Doctor.nation); //中国
-</code></pre><h2 id="浅拷贝"><a href="#浅拷贝" class="headerlink" title="浅拷贝"></a>浅拷贝</h2><p>除了使用”prototype链”以外，还有另一种思路：把父对象的属性，全部拷贝给子对象，也能实现继承。</p>
-<p>下面这个函数，就是在做拷贝：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function extendCopy(p) &#123;</div><div class="line">　　　　var c = &#123;&#125;;</div><div class="line">　　　　for (var i in p) &#123; </div><div class="line">　　　　　　c[i] = p[i];</div><div class="line">　　　　&#125;</div><div class="line">　　　　c.uber = p;</div><div class="line">　　　　return c;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>使用的时候，这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var Doctor = extendCopy(Chinese);</div><div class="line">　　Doctor.career = &apos;医生&apos;;</div><div class="line">　　alert(Doctor.nation); // 中国</div></pre></td></tr></table></figure></p>
-<p>但是，这样的拷贝有一个问题。那就是，如果父对象的属性等于数组或另一个对象，那么实际上，子对象获得的只是一个内存地址，而不是真正拷贝，因此存在父对象被篡改的可能。</p>
-<p>现在添加一个属性给Chinese,而且是一个数组</p>
-<pre><code>Chinese.birthPlaces = [&apos;北京&apos;,&apos;上海&apos;,&apos;香港&apos;];
-</code></pre><p>通过extendCopy()函数，Doctor继承了Chinese。</p>
-<pre><code>var Doctor = extendCopy(Chinese);
-</code></pre><p>然后，我们为Doctor的”出生地”添加一个城市：</p>
-<pre><code>Doctor.birthPlaces.push(&apos;厦门&apos;);
-</code></pre><p>发生了什么事？Chinese的”出生地”也被改掉了！<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">alert(Doctor.birthPlaces); //北京, 上海, 香港, 厦门</div><div class="line">alert(Chinese.birthPlaces); //北京, 上海, 香港, 厦门</div></pre></td></tr></table></figure></p>
-<p>所以，extendCopy()只是拷贝基本类型的数据，我们把这种拷贝叫做”浅拷贝”。这是早期jQuery实现继承的方式。</p>
-<h2 id="深拷贝"><a href="#深拷贝" class="headerlink" title="深拷贝"></a>深拷贝</h2><p>所谓”深拷贝”，就是能够实现真正意义上的数组和对象的拷贝。它的实现并不难，<br><strong>只要递归调用”浅拷贝”就行了</strong>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function deepCopy(p, c) &#123;</div><div class="line">　　　　var c = c || &#123;&#125;;</div><div class="line">　　　　for (var i in p) &#123;</div><div class="line">　　　　　　if (typeof p[i] === &apos;object&apos;) &#123;</div><div class="line">　　　　　　　　c[i] = (p[i].constructor === Array) ? [] : &#123;&#125;;</div><div class="line">　　　　　　　　deepCopy(p[i], c[i]);</div><div class="line">　　　　　　&#125; else &#123;</div><div class="line">　　　　　　　　　c[i] = p[i];</div><div class="line">　　　　　　&#125;</div><div class="line">　　　　&#125;</div><div class="line">　　　　return c;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>这样的话，例子与浅拷贝相同的情况下，返回的值应该是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　alert(Doctor.birthPlaces); //北京, 上海, 香港, 厦门</div><div class="line">alert(Chinese.birthPlaces); //北京, 上海, 香港</div></pre></td></tr></table></figure></p>
+        <p>要学习闭包，需要一步一步的来。。。</p>
+<h2 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h2><p>要理解闭包，一定要理解JS特殊的变量作用域</p>
+<p>变量的作用域就两种：局部变量和全局变量</p>
+<p>JS语言的特殊之处就是内部函数可以直接读取全局变量，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">　　var n=999;</div><div class="line">　　function f1()&#123;</div><div class="line">　　　　alert(n);</div><div class="line">　　&#125;</div><div class="line">　　f1(); // 999</div></pre></td></tr></table></figure></p>
+<p>而函数外部无法读取函数内的<strong>局部变量</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　&#125;</div><div class="line">　　alert(n); // error</div></pre></td></tr></table></figure></p>
+<h2 id="如何从外部读取局部变量？"><a href="#如何从外部读取局部变量？" class="headerlink" title="如何从外部读取局部变量？"></a>如何从外部读取局部变量？</h2><p>这时候我们就可以在函数的内部，再定义一个函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　　　function f2()&#123;</div><div class="line">　　　　　　alert(n); // 999</div><div class="line">　　　　&#125;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
+<p>在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。</p>
+<p>既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　　　function f2()&#123;</div><div class="line">　　　　　　alert(n); </div><div class="line">　　　　&#125;</div><div class="line">　　　　return f2;</div><div class="line">　　&#125;</div><div class="line">　　var result=f1();</div><div class="line">　　result(); // 999</div></pre></td></tr></table></figure></p>
+<h2 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h2><p>我的理解是，闭包就是能够读取其他函数内部变量的函数。</p>
+<p>由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。</p>
+<h2 id="闭包的用途"><a href="#闭包的用途" class="headerlink" title="闭包的用途"></a>闭包的用途</h2><p>闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　　　nAdd=function()&#123;n+=1&#125;</div><div class="line">　　　　function f2()&#123;</div><div class="line">　　　　　　alert(n);</div><div class="line">　　　　&#125;</div><div class="line">　　　　return f2;</div><div class="line">　　&#125;</div><div class="line">　　var result=f1();</div><div class="line">　　result(); // 999</div><div class="line">　　nAdd();</div><div class="line">　　result(); // 1000</div></pre></td></tr></table></figure></p>
+<p>在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。</p>
+<p>为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。</p>
+<h2 id="使用闭包要注意的地方"><a href="#使用闭包要注意的地方" class="headerlink" title="使用闭包要注意的地方"></a>使用闭包要注意的地方</h2><ul>
+<li><p>由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。</p>
+</li>
+<li><p>闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。</p>
+</li>
+</ul>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/09/19/JS-inherit-2/" class="archive-article-date">
-  	<time datetime="2015-09-19T04:05:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-19</time>
+      <a href="/2015/10/03/closure/" class="archive-article-date">
+  	<time datetime="2015-10-03T02:08:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-03</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -217,18 +216,18 @@
   
 <nav id="article-nav">
   
-    <a href="/2015/10/03/closure/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/10/12/javascript-templating/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          通俗易懂学闭包
+          javascript模板引擎的介绍
         
       </div>
     </a>
   
   
-    <a href="/2015/09/09/JS-inherit/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">JS对象继承的几种方式（构造函数）</div>
+    <a href="/2015/09/19/JS-inherit-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS对象继承的几种方式（非构造函数）</div>
       <i class="icon-circle-right"></i>
     </a>
   
