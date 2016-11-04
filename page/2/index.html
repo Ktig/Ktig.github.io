@@ -144,6 +144,110 @@
       <div class="body-wrap">
         
   
+    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/25/git/">开始Git学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="关于Git的安装"><a href="#关于Git的安装" class="headerlink" title="关于Git的安装"></a>关于Git的安装</h2><p>Git的安装需要先下载对应的的安装包，然后一定要记得配置环境变量。比如我的环境变量就配置为<br><img src="http://img1.ph.126.net/XcpxY74dZxcWRbbmT0bX5g==/6631478983050728278.jpg" alt=""></p>
+<p>然后记得在PATH里面也配置好，如下</p>
+<p><img src="http://img0.ph.126.net/riJUMae3Y5yAFpOZL5Fl5w==/6631646108818136076.jpg" alt=""></p>
+<h2 id="关于Git常用的指令"><a href="#关于Git常用的指令" class="headerlink" title="关于Git常用的指令"></a>关于Git常用的指令</h2><h4 id="Git版本库的创建"><a href="#Git版本库的创建" class="headerlink" title="Git版本库的创建"></a>Git版本库的创建</h4><pre><code>$git init;
+</code></pre><p>通过这个命令把这个目录变为git可管理的仓库，执行之后，可以发现多一个.git的文件夹</p>
+<pre><code>$git add .;
+</code></pre><p>将所有文件这里只是添加到暂存区</p>
+<pre><code>$git commit -m &quot;commit&quot;;
+</code></pre><p>这里是将暂存区的所有内容提交到master所在的分支，并且有附带介绍的信息</p>
+<pre><code>$git status; 
+</code></pre><p>掌握仓库当前的状态</p>
+<pre><code>$git diff;
+</code></pre><p>展示修改的具体内容</p>
+<pre><code>$git log ; 
+</code></pre><p>记录文件的每一次改动的详细信息</p>
+<pre><code>$git log --oneline;
+</code></pre><p>将每一次改动的详细信息以行的形式展示</p>
+<pre><code>$git  reset --hard HEAD^;
+</code></pre><p>查看上一次的修改</p>
+<pre><code>$git  reset --hard HEAD~2;
+</code></pre><p>查看上上一次的修改</p>
+<h4 id="撤销版本修改"><a href="#撤销版本修改" class="headerlink" title="撤销版本修改"></a>撤销版本修改</h4><p>1.在工作区进行修改，没有添加到暂存区</p>
+<pre><code>$ git checkout -- readme.txt
+</code></pre><p>2.在工作区进行修改，并且执行了添加到暂存区的操作，但是没有提交到版本库</p>
+<pre><code>$ git reset HEAD readme.txt ；//在此处回到情况1
+$ git checkout -- readme.txt
+</code></pre><p>3.修改后提交到了版本库</p>
+<pre><code>$ git reset --hard HEAD^
+</code></pre><h4 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h4><p>首先，我们创建dev分支，然后切换到dev分支：</p>
+<pre><code>$ git checkout -b dev
+Switched to a new branch &apos;dev&apos;
+</code></pre><p>然后，用git branch命令查看当前分支（所有分支）：</p>
+<pre><code>$ git branch
+* dev
+  master
+</code></pre><p>之后可以在这个分支上面修改文件，然后添加到版本库：</p>
+<pre><code>$ git add readme.txt
+$ git commit -m &apos;add text about....&apos;
+</code></pre><p>dev分支的工作完成，我们就可以切换回master分支：</p>
+<pre><code>$ git checkout master
+Switched to branch &apos;master&apos;
+</code></pre><p>现在，我们把dev分支的工作成果合并到master分支上：</p>
+<pre><code>$ git merge dev
+</code></pre><p>合并完成后，就可以放心地删除dev分支了：</p>
+<pre><code>$ git branch -d dev
+</code></pre><p>删除后，查看branch，就只剩下master分支了：</p>
+<pre><code>$ git branch
+* master
+</code></pre><p>以下是关于分支所经常使用的操作指令：</p>
+<pre><code>1.查看分支：git branch
+2.创建分支：git branch &lt;name&gt;
+3.切换分支：git checkout &lt;name&gt;
+4.创建+切换分支：git checkout -b &lt;name&gt;
+5.合并某分支到当前分支：git merge &lt;name&gt;
+6.删除分支：git branch -d &lt;name&gt;
+</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/11/25/git/" class="archive-article-date">
+  	<time datetime="2015-11-25T04:10:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-11-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-bubble and capture" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -444,82 +548,6 @@
 
 
   
-    <article id="post-JS-inherit" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/09/JS-inherit/">JS对象继承的几种方式（构造函数）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="什么是构造函数的继承"><a href="#什么是构造函数的继承" class="headerlink" title="什么是构造函数的继承"></a>什么是构造函数的继承</h2><p>首先，在介绍几种继承方式之前要列出两个例子，供几种继承方式采用：<br>先来一个“动物”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function Animal()&#123;</div><div class="line">　　　　this.species = &quot;动物&quot;;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>再来一个“狗”对象的构造函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function Dog(name,color)&#123;</div><div class="line">　　　　this.name = name;</div><div class="line">　　　　this.color = color;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>思考：怎么才能使“狗”继承“动物”呢？</p>
-<h2 id="构造函数绑定继承"><a href="#构造函数绑定继承" class="headerlink" title="构造函数绑定继承"></a>构造函数绑定继承</h2><p>第一种方法也是最简单的方法，使用call或apply方法，将父对象的构造函数绑定在子对象上，即在子对象构造函数中加一行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function Dog(name,color)&#123;</div><div class="line">　　　　Animal.apply(this, arguments);</div><div class="line">　　　　this.name = name;</div><div class="line">　　　　this.color = color;</div><div class="line">　　&#125;</div><div class="line">　　var erha = new Dat(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
-<h2 id="原型继承"><a href="#原型继承" class="headerlink" title="原型继承"></a>原型继承</h2><p>第二种方法更常见，使用prototype属性。如果”狗”的prototype对象，指向一个Animal的实例，那么所有”狗”的实例，就能继承Animal了。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Dog.prototype = new Animal();</div><div class="line">　　Dog.prototype.constructor = Dog;</div><div class="line">　　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
-<p>代码的第一行，我们将Dog的prototype对象指向一个Animal的实例。它相当于完全删除了prototype 对象原先的值，然后赋予一个新值。</p>
-<pre><code>Dog.prototype.constructor = Dog;
-</code></pre><p>对于第二行，任何一个prototype对象都有一个constructor属性，指向它的构造函数。如果没有”Dog.prototype = new Animal();”这一行，Dog.prototype.constructor是指向Dog的；加了这一行以后，Dog.prototype.constructor指向Animal。</p>
-<p>更重要的是，每一个实例也有一个constructor属性，默认调用prototype对象的constructor属性。</p>
-<pre><code>alert(erha.constructor == Dog.prototype.constructor); // true
-</code></pre><h3 id="直接继承prototype"><a href="#直接继承prototype" class="headerlink" title="直接继承prototype"></a>直接继承prototype</h3><p>第三种方法是对第二种方法的改进。由于Animal对象中，不变的属性都可以直接写入Animal.prototype。所以，我们也可以让Dog()跳过 Animal()，直接继承Animal.prototype。</p>
-<p>现在，我们先将Animal对象改写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">　function Animal()&#123; &#125;</div><div class="line">　Animal.prototype.species = &quot;动物&quot;;</div></pre></td></tr></table></figure></p>
-<p>然后，将Dog的prototype对象，然后指向Animal的prototype对象，这样就完成了继承。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　Dog.prototype = Animal.prototype;</div><div class="line">　Dog.prototype.constructor = Dog;</div><div class="line">　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
-<p>与前一种方法相比，这样做的优点是效率比较高（不用执行和建立Animal的实例了），比较省内存。缺点是 Dog.prototype和Animal.prototype现在指向了同一个对象，那么任何对Dog.prototype的修改，都会反映到Animal.prototype。</p>
-<p>其实这种方式还是有问题的，对于第二行代码实际上把Animal.prototype对象的constructor属性也改掉了！相当于会出现以下结果：</p>
-<pre><code>　alert(Animal.prototype.constructor); // Dog
-</code></pre><h2 id="利用空对象作为中介实现继承"><a href="#利用空对象作为中介实现继承" class="headerlink" title="利用空对象作为中介实现继承"></a>利用空对象作为中介实现继承</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　var F = function()&#123;&#125;;</div><div class="line">　F.prototype = Animal.prototype;</div><div class="line">　Dog.prototype = new F();</div><div class="line">　Dog.prototype.constructor = Dog;</div></pre></td></tr></table></figure>
-<p>这种方式是为了更好的解决直接原型继承的方式。F是空对象，所以几乎不占内存。这时，修改Dog的prototype对象，就不会影响到Animal的prototype对象。所以：</p>
-<pre><code>alert(Animal.prototype.constructor); // Animal
-</code></pre><p>我们将上面的方法，封装成一个函数，便于使用。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function extend(Child, Parent) &#123;</div><div class="line">　　　var F = function()&#123;&#125;;</div><div class="line">　　　F.prototype = Parent.prototype;</div><div class="line">　　　Child.prototype = new F();</div><div class="line">　　　Child.prototype.constructor = Child;</div><div class="line">　　　Child.uber = Parent.prototype;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>使用的时候，方法如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">extend(Dog,Animal);</div><div class="line">　　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
-<p>这个extend函数，就是YUI库如何实现继承的方法。</p>
-<h2 id="拷贝继承"><a href="#拷贝继承" class="headerlink" title="拷贝继承"></a>拷贝继承</h2><p>上面是采用prototype对象，实现继承。我们也可以换一种思路，纯粹采用”拷贝”方法实现继承。简单说，如果把父对象的所有属性和方法，拷贝进子对象，不也能够实现继承吗？这样我们就有了第五种方法。</p>
-<p>首先，还是把Animal的所有不变属性，都放到它的prototype对象上。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">function Animal()&#123;&#125;</div><div class="line">　Animal.prototype.species = &quot;动物&quot;;</div></pre></td></tr></table></figure></p>
-<p>然后，再写一个函数，实现属性拷贝的目的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function extend2(Child, Parent) &#123;</div><div class="line">　　　var p = Parent.prototype;</div><div class="line">　　　var c = Child.prototype;</div><div class="line">　　　for (var i in p) &#123;</div><div class="line">　　　　　c[i] = p[i];</div><div class="line">　　　　　&#125;</div><div class="line">　　　c.uber = p;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>这个函数的作用，就是将父对象的prototype对象中的属性，一一拷贝给Child对象的prototype对象。</p>
-<p>使用的时候，这样写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">　extend2(Dog, Animal);</div><div class="line">　var erha = new Dog(&quot;二哈&quot;,&quot;白色&quot;);</div><div class="line">　alert(erha.species); // 动物</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/09/09/JS-inherit/" class="archive-article-date">
-  	<time datetime="2015-09-09T05:28:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-09</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/javascript/">javascript</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -587,7 +615,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
     			</div>
     	</section>
     

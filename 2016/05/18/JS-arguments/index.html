@@ -6,17 +6,18 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: sea.js | Ktig`s blog</title>
+  <title>JS中的arguments的作用 | Ktig`s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="知识总结 点滴积累">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Ktig`s blog">
-<meta property="og:url" content="http://yoursite.com/tags/sea-js/index.html">
+  <meta name="description" content="一、什么是argumentsarguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS中的arguments的作用">
+<meta property="og:url" content="http://yoursite.com/2016/05/18/JS-arguments/index.html">
 <meta property="og:site_name" content="Ktig`s blog">
-<meta property="og:description" content="知识总结 点滴积累">
+<meta property="og:description" content="一、什么是argumentsarguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返">
+<meta property="og:updated_time" content="2016-11-04T12:50:20.750Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Ktig`s blog">
-<meta name="twitter:description" content="知识总结 点滴积累">
+<meta name="twitter:title" content="JS中的arguments的作用">
+<meta name="twitter:description" content="一、什么是argumentsarguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返">
   
   
     <link rel="icon" href="/favicon.png">
@@ -142,54 +143,104 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-JS-arguments" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2016/03/01/sea/" class="archive-article-date">
-  	<time datetime="2016-03-01T04:33:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-03-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/03/01/sea/">使用SeaJS实现模块化JavaScript开发</a>
+    <h1 class="article-title" itemprop="name">
+      JS中的arguments的作用
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、什么是arguments"><a href="#一、什么是arguments" class="headerlink" title="一、什么是arguments"></a>一、什么是arguments</h2><p>arguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。<br>所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返回的是’object’。虽然我们可以用调用数据的方法来调用arguments。比如length,还有index方法。但是数组的push和pop对象是不适用的。</p>
+<h2 id="二、arguments的作用"><a href="#二、arguments的作用" class="headerlink" title="二、arguments的作用"></a>二、arguments的作用</h2><p>1.每个函数都有一个arguments属性，表示函数的实参集合，这里的实参是重点，就是执行函数时实际传入的参数的集合。</p>
+<p>2.arguments不是数组而是一个对象，但它和数组很相似，所以通常称为类数组对象，以后看到类数组其实就表示arguments。</p>
+<p>3.arguments有length属性，可以用arguments[length]显示调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function func()&#123;</div><div class="line">     for(var i=0;i&lt;arguments.length;i++)&#123;</div><div class="line">         console.log(arguments[i]);</div><div class="line">    &#125;      </div><div class="line">&#125;</div><div class="line"></div><div class="line">func(&quot;a&quot;,17,[1,2,3],&#123;name:&quot;javascript&quot;,type:&quot;language&quot;&#125;);</div></pre></td></tr></table></figure></p>
+<p>结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a</div><div class="line">17</div><div class="line">[1, 2, 3]</div><div class="line">&#123;name: &quot;javascript&quot;, type: &quot;language&quot;&#125;</div></pre></td></tr></table></figure></p>
+<p>4.Array.prototype.slice.call(arguments):</p>
+<p>首先我们来看看call是干什么的，举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var obj1=&#123;</div><div class="line">    name:&quot;java&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">window.name=&quot;javascript&quot;;</div><div class="line">var func=function()&#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">func();  //javasript</div><div class="line">func.call(obj1); //java</div></pre></td></tr></table></figure></p>
+<p>我们可以很清楚的看到，call的一个作用是可以改变函数运行的作用域，func中的this指向了obj1。同样的，提到了call,当然就少不了apply，具体区别可以查看：<a href="http://" target="_blank" rel="external">JS中call、apply和bind的区别</a></p>
+<p>那Array.prototype.slice.call(arguments)是干啥的呢？</p>
+<p>首先我们猜测Array.prototype.slice是一个方法，将它call(arguments)之后，Array.prototype.slice中的this就指向了arguments对象了。</p>
+<p>其实Array.slice是一个数组复制函数，它接受两个参数(start,[end]);从下标为start复制到下标为end，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var numArr=[1,2,3,4,5];</div><div class="line">console.log(numArr.slice(0,4)); //[1,2,3,4]</div><div class="line">console.log(numArr.slice()); //[1,2,3,4,5]</div><div class="line">console.log(numArr.slice(1)) //[2,3,4,5]</div></pre></td></tr></table></figure></p>
+<p>所以，当Array.prototype.slice.call(arguments)后，就变成了result.push(arguments[i])，这样就将arguments转成了一个实实在在的数组了。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/05/18/JS-arguments/" class="archive-article-date">
+  	<time datetime="2016-05-18T10:33:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-05-18</time>
+</a>
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sea-js/">sea.js</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-  
-    </div></section>
-  
 
-    
+  
+<nav id="article-nav">
+  
+    <a href="/2016/07/12/sass and less/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          sass与less的区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/04/20/webpack/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">webpack的学习之路</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
 
 
       </div>
@@ -213,9 +264,9 @@
 		mathjax: false,
 		animate: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",

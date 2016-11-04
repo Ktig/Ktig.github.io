@@ -307,6 +307,67 @@
 
 
   
+    <article id="post-JS-arguments" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/05/18/JS-arguments/">JS中的arguments的作用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="一、什么是arguments"><a href="#一、什么是arguments" class="headerlink" title="一、什么是arguments"></a>一、什么是arguments</h2><p>arguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。<br>所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返回的是’object’。虽然我们可以用调用数据的方法来调用arguments。比如length,还有index方法。但是数组的push和pop对象是不适用的。</p>
+<h2 id="二、arguments的作用"><a href="#二、arguments的作用" class="headerlink" title="二、arguments的作用"></a>二、arguments的作用</h2><p>1.每个函数都有一个arguments属性，表示函数的实参集合，这里的实参是重点，就是执行函数时实际传入的参数的集合。</p>
+<p>2.arguments不是数组而是一个对象，但它和数组很相似，所以通常称为类数组对象，以后看到类数组其实就表示arguments。</p>
+<p>3.arguments有length属性，可以用arguments[length]显示调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function func()&#123;</div><div class="line">     for(var i=0;i&lt;arguments.length;i++)&#123;</div><div class="line">         console.log(arguments[i]);</div><div class="line">    &#125;      </div><div class="line">&#125;</div><div class="line"></div><div class="line">func(&quot;a&quot;,17,[1,2,3],&#123;name:&quot;javascript&quot;,type:&quot;language&quot;&#125;);</div></pre></td></tr></table></figure></p>
+<p>结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a</div><div class="line">17</div><div class="line">[1, 2, 3]</div><div class="line">&#123;name: &quot;javascript&quot;, type: &quot;language&quot;&#125;</div></pre></td></tr></table></figure></p>
+<p>4.Array.prototype.slice.call(arguments):</p>
+<p>首先我们来看看call是干什么的，举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var obj1=&#123;</div><div class="line">    name:&quot;java&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">window.name=&quot;javascript&quot;;</div><div class="line">var func=function()&#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">func();  //javasript</div><div class="line">func.call(obj1); //java</div></pre></td></tr></table></figure></p>
+<p>我们可以很清楚的看到，call的一个作用是可以改变函数运行的作用域，func中的this指向了obj1。同样的，提到了call,当然就少不了apply，具体区别可以查看：<a href="http://" target="_blank" rel="external">JS中call、apply和bind的区别</a></p>
+<p>那Array.prototype.slice.call(arguments)是干啥的呢？</p>
+<p>首先我们猜测Array.prototype.slice是一个方法，将它call(arguments)之后，Array.prototype.slice中的this就指向了arguments对象了。</p>
+<p>其实Array.slice是一个数组复制函数，它接受两个参数(start,[end]);从下标为start复制到下标为end，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var numArr=[1,2,3,4,5];</div><div class="line">console.log(numArr.slice(0,4)); //[1,2,3,4]</div><div class="line">console.log(numArr.slice()); //[1,2,3,4,5]</div><div class="line">console.log(numArr.slice(1)) //[2,3,4,5]</div></pre></td></tr></table></figure></p>
+<p>所以，当Array.prototype.slice.call(arguments)后，就变成了result.push(arguments[i])，这样就将arguments转成了一个实实在在的数组了。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/05/18/JS-arguments/" class="archive-article-date">
+  	<time datetime="2016-05-18T10:33:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-05-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-webpack" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -568,110 +629,6 @@ React.render(
 
 
   
-    <article id="post-git" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/11/25/git/">开始Git学习</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="关于Git的安装"><a href="#关于Git的安装" class="headerlink" title="关于Git的安装"></a>关于Git的安装</h2><p>Git的安装需要先下载对应的的安装包，然后一定要记得配置环境变量。比如我的环境变量就配置为<br><img src="http://img1.ph.126.net/XcpxY74dZxcWRbbmT0bX5g==/6631478983050728278.jpg" alt=""></p>
-<p>然后记得在PATH里面也配置好，如下</p>
-<p><img src="http://img0.ph.126.net/riJUMae3Y5yAFpOZL5Fl5w==/6631646108818136076.jpg" alt=""></p>
-<h2 id="关于Git常用的指令"><a href="#关于Git常用的指令" class="headerlink" title="关于Git常用的指令"></a>关于Git常用的指令</h2><h4 id="Git版本库的创建"><a href="#Git版本库的创建" class="headerlink" title="Git版本库的创建"></a>Git版本库的创建</h4><pre><code>$git init;
-</code></pre><p>通过这个命令把这个目录变为git可管理的仓库，执行之后，可以发现多一个.git的文件夹</p>
-<pre><code>$git add .;
-</code></pre><p>将所有文件这里只是添加到暂存区</p>
-<pre><code>$git commit -m &quot;commit&quot;;
-</code></pre><p>这里是将暂存区的所有内容提交到master所在的分支，并且有附带介绍的信息</p>
-<pre><code>$git status; 
-</code></pre><p>掌握仓库当前的状态</p>
-<pre><code>$git diff;
-</code></pre><p>展示修改的具体内容</p>
-<pre><code>$git log ; 
-</code></pre><p>记录文件的每一次改动的详细信息</p>
-<pre><code>$git log --oneline;
-</code></pre><p>将每一次改动的详细信息以行的形式展示</p>
-<pre><code>$git  reset --hard HEAD^;
-</code></pre><p>查看上一次的修改</p>
-<pre><code>$git  reset --hard HEAD~2;
-</code></pre><p>查看上上一次的修改</p>
-<h4 id="撤销版本修改"><a href="#撤销版本修改" class="headerlink" title="撤销版本修改"></a>撤销版本修改</h4><p>1.在工作区进行修改，没有添加到暂存区</p>
-<pre><code>$ git checkout -- readme.txt
-</code></pre><p>2.在工作区进行修改，并且执行了添加到暂存区的操作，但是没有提交到版本库</p>
-<pre><code>$ git reset HEAD readme.txt ；//在此处回到情况1
-$ git checkout -- readme.txt
-</code></pre><p>3.修改后提交到了版本库</p>
-<pre><code>$ git reset --hard HEAD^
-</code></pre><h4 id="分支管理"><a href="#分支管理" class="headerlink" title="分支管理"></a>分支管理</h4><p>首先，我们创建dev分支，然后切换到dev分支：</p>
-<pre><code>$ git checkout -b dev
-Switched to a new branch &apos;dev&apos;
-</code></pre><p>然后，用git branch命令查看当前分支（所有分支）：</p>
-<pre><code>$ git branch
-* dev
-  master
-</code></pre><p>之后可以在这个分支上面修改文件，然后添加到版本库：</p>
-<pre><code>$ git add readme.txt
-$ git commit -m &apos;add text about....&apos;
-</code></pre><p>dev分支的工作完成，我们就可以切换回master分支：</p>
-<pre><code>$ git checkout master
-Switched to branch &apos;master&apos;
-</code></pre><p>现在，我们把dev分支的工作成果合并到master分支上：</p>
-<pre><code>$ git merge dev
-</code></pre><p>合并完成后，就可以放心地删除dev分支了：</p>
-<pre><code>$ git branch -d dev
-</code></pre><p>删除后，查看branch，就只剩下master分支了：</p>
-<pre><code>$ git branch
-* master
-</code></pre><p>以下是关于分支所经常使用的操作指令：</p>
-<pre><code>1.查看分支：git branch
-2.创建分支：git branch &lt;name&gt;
-3.切换分支：git checkout &lt;name&gt;
-4.创建+切换分支：git checkout -b &lt;name&gt;
-5.合并某分支到当前分支：git merge &lt;name&gt;
-6.删除分支：git branch -d &lt;name&gt;
-</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/11/25/git/" class="archive-article-date">
-  	<time datetime="2015-11-25T04:10:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-11-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Git/">Git</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -739,7 +696,7 @@ Switched to branch &apos;master&apos;
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 10px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/javascript/" style="font-size: 20px;">javascript</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
     			</div>
     	</section>
     
