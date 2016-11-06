@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>JS中call、apply和bind对this的指向 | Ktig`s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JavaScript提供了call、apply、bind这三个方法，来切换/固定this的指向。
+function.prototype.call()12345678&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;        var  o = &amp;#123;&amp;#125;;        var  f = function()&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS中call、apply和bind对this的指向">
+<meta property="og:url" content="http://yoursite.com/2016/05/20/JS-bound/index.html">
+<meta property="og:site_name" content="Ktig`s blog">
+<meta property="og:description" content="JavaScript提供了call、apply、bind这三个方法，来切换/固定this的指向。
+function.prototype.call()12345678&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;        var  o = &amp;#123;&amp;#125;;        var  f = function()&amp;#123;">
+<meta property="og:updated_time" content="2016-11-06T13:06:03.022Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JS中call、apply和bind对this的指向">
+<meta name="twitter:description" content="JavaScript提供了call、apply、bind这三个方法，来切换/固定this的指向。
+function.prototype.call()12345678&amp;lt;script type=&amp;quot;text/javascript&amp;quot;&amp;gt;        var  o = &amp;#123;&amp;#125;;        var  f = function()&amp;#123;">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="https://avatars2.githubusercontent.com/u/22739126?v=3&amp;s=466" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Ktig</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">心之所指</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Ktig" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="google" target="_blank" href="#" title="google">google</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/han-guang-30-89" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Ktig</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="https://avatars2.githubusercontent.com/u/22739126?v=3&amp;s=466" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Ktig</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">心之所指</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Ktig" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="google" target="_blank" href="#" title="google">google</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/han-guang-30-89" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-JS-bound" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JS中call、apply和bind对this的指向
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>JavaScript提供了call、apply、bind这三个方法，来切换/固定this的指向。</p>
+<h2 id="function-prototype-call"><a href="#function-prototype-call" class="headerlink" title="function.prototype.call()"></a>function.prototype.call()</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">        var  o = &#123;&#125;;</div><div class="line">        var  f = function()&#123;</div><div class="line">        return this;</div><div class="line">    &#125;</div><div class="line">    console.log(f()===this);//true</div><div class="line">    console.log(f.call(o)===o);//true,在这里将函数f内部this的指向改成了对象o;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>a函数中的this关键字，如果指向的是全局对象，也就是window，返回的是123,即使call方法里面没有参数或者传入了null、undefined，也不能改变指向。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    var n = 123;</div><div class="line">    var o = &#123; n : 456 &#125;;</div><div class="line">    function a() &#123;</div><div class="line">      console.log(this.n);</div><div class="line">    &#125;</div><div class="line">    a.call() // 123</div><div class="line">    a.call(null) // 123</div><div class="line">    a.call(undefined) // 123</div><div class="line">    a.call(window) // 123</div><div class="line">    a.call(o) // 456</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function add(a,b) &#123;</div><div class="line">     return a+b;</div><div class="line">    &#125;</div><div class="line">    add.call(this,1,2) // 3,call方法指定函数在当前环境（对象）中运行</div></pre></td></tr></table></figure>
+<h2 id="function-prototype-apply"><a href="#function-prototype-apply" class="headerlink" title="function.prototype.apply()"></a>function.prototype.apply()</h2><p>它与call()唯一的区别就是它接收一个数组作为函数执行时的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var a = [&apos;a&apos;, , &apos;b&apos;];</div><div class="line">function print(i) &#123;</div><div class="line">  console.log(i);</div><div class="line">&#125;</div><div class="line">a.forEach(print);  </div><div class="line">//[a,b]</div></pre></td></tr></table></figure>
+<p>利用forEach方法会跳过空元素，但是不会跳过undefined</p>
+<pre><code>Array.apply(null, a).forEach(print);
+//[a,undefined,b]
+</code></pre><p>下面来涉及一下伪数组：</p>
+<pre><code>Array.prototype.slice.apply({0:1,length:1});
+//[1]
+Array.prototype.slice.apply({0:1})
+//[]
+Array.prototype.slice.apply({0:1,length:2})
+// [1, undefined]
+Array.prototype.slice.apply({length:1})
+// [undefined]
+</code></pre><p>在此处，利用数组对象的slice方法，可以将一个类似数组的对象（也成为伪数组）转化为一个真正的数组。<strong>前提是被处理的对象要有length属性，且有对应数字键</strong>。</p>
+<h2 id="function-prototype-bind"><a href="#function-prototype-bind" class="headerlink" title="function.prototype.bind()"></a>function.prototype.bind()</h2><p>bind方法用于将函数体内的this绑定到某个对象，然后返回一个新函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var counter = &#123;</div><div class="line">    count:0,</div><div class="line">    inc:function()&#123;</div><div class="line">    this.count++;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line">counter.count;//0</div><div class="line">counter.inc();</div><div class="line">counter.count;//1</div></pre></td></tr></table></figure></p>
+<p>再来一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var counter = &#123;</div><div class="line">  count: 0,</div><div class="line">  inc: function () &#123;</div><div class="line">    this.count++;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line">console.log(counter.count);//0</div><div class="line">var func = counter.inc;</div><div class="line">func();</div><div class="line">console.log(count); //NaN</div></pre></td></tr></table></figure></p>
+<p>函数func是在全局环境中运行的，这时候inc内部的this指向了顶层对象window,反而创建了一个全局变量count。即undefined++就等于NaN。</p>
+<p>为了解决这个问题，可以将this绑定到counter对象身上:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var func = counter.inc.bind(counter);</div><div class="line">func();</div><div class="line">counter.count;//1</div></pre></td></tr></table></figure></p>
+<p>再来一个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    var add = function (x, y) &#123;</div><div class="line">      console.log(x * this.m + y * this.n);</div><div class="line">    &#125;</div><div class="line">    var obj = &#123;</div><div class="line">      m: 2,</div><div class="line">      n: 2</div><div class="line">    &#125;;</div><div class="line">    var newAdd = add.bind(obj, 5);</div><div class="line">    newAdd(5)；</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>bind比call和apply方法更进一步的是，除了绑定this以外，还可以绑定原函数的参数。</p>
+<p><strong>扩展：</strong>对于不支持bind方法的老式浏览器，我们可以自定义bind方法，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    if(!(&apos;bind&apos; in Function.prototype))&#123;</div><div class="line">    Function.prototype.bind = function()&#123;</div><div class="line">    var fn = this;</div><div class="line">    var context = arguments[0];</div><div class="line">    var args = Array.prototype.slice.call(arguments, 1);</div><div class="line">    return function()&#123;</div><div class="line">      return fn.apply(context, args);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<h2 id="bind方法使用的注意事项："><a href="#bind方法使用的注意事项：" class="headerlink" title="bind方法使用的注意事项："></a>bind方法使用的注意事项：</h2><p>1.每一次返回一个新的函数。</p>
+<pre><code>element.addEventListener(&quot;click&quot;,o.m.bind(o));
+</code></pre><p>这时候click事件绑定bind方法生成的是一个匿名函数，导致无法取消绑定</p>
+<p>解决方法：var listener = o.m.bind(o);</p>
+<p>2.结合回调函数使用</p>
+<p>不能将包含this的方法直接当做回调函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">    var counter = &#123;</div><div class="line">      count: 0,</div><div class="line">      inc: function () &#123;</div><div class="line">        &apos;use strict&apos;;</div><div class="line">        this.count++;</div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">    function callIt(callback) &#123;</div><div class="line">      callback();</div><div class="line">    &#125;</div><div class="line">    callIt(counter.inc)；//error</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure></p>
+<p>解决方法：callIt(counter.inc.bind(counter))</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/05/20/JS-bound/" class="archive-article-date">
+  	<time datetime="2016-05-20T09:20:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-05-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2016/07/12/sass and less/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          sass与less的区别
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/05/18/JS-arguments/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">JS中的arguments的作用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Ktig
+    	</div>
+      	<div class="footer-right">	
+              <span>本站的主题：<span style='color:green'>Yilia</span></span>
+          </span>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ruanyifeng.com/home.html/">阮一峰</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.zhangxinxu.com/">张鑫旭</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.barretlee.com/entry/">小胡子哥</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://taobaofed.org/">淘宝前端团队</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://fex.baidu.com/">百度前端研发部</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">未曾一次退败&lt;br&gt;&lt;br&gt;未尝得一知己</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
