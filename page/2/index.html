@@ -144,6 +144,141 @@
       <div class="body-wrap">
         
   
+    <article id="post-webpack" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/04/20/webpack/">webpack的学习之路</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="什么是webpack"><a href="#什么是webpack" class="headerlink" title="什么是webpack?"></a>什么是webpack?</h2><p>webpack是近期最火的一款模块加载器兼打包工具，它能把各种资源，例如JS（含JSX）、coffee、样式（含less/sass）、图片等都作为模块来使用和处理。</p>
+<p><img src="http://img0.ph.126.net/NISsXVH8vHlHsaDx-jxWqw==/6631654904911171851.jpg" alt=""></p>
+<p>我们可以直接使用 require(文件名) 的形式来引入各模块，即使它们可能需要经过编译（比如JSX和sass），但我们无须在上面花费太多心思，因为 webpack 有着各种健全的加载器（loader）在默默处理这些事情。</p>
+<h2 id="webpack的安装和配置"><a href="#webpack的安装和配置" class="headerlink" title="webpack的安装和配置"></a>webpack的安装和配置</h2><h4 id="一、安装"><a href="#一、安装" class="headerlink" title="一、安装"></a>一、安装</h4><p>我们常规直接使用 npm 的形式来安装：</p>
+<pre><code>$ npm install webpack -g
+</code></pre><p>当然如果常规项目还是把依赖写入 package.json 包去更人性化：</p>
+<pre><code>$ npm init
+$ npm install webpack --save-dev
+</code></pre><h4 id="二、配置"><a href="#二、配置" class="headerlink" title="二、配置"></a>二、配置</h4><p>在项目目录中添加配置文件 webpack.config.js，告诉 webpack 它需要做什么，具体例子如下：</p>
+<pre><code>module.exports = {
+    //项目的入口文件
+    entry: &apos;./index.js&apos;,
+    //打包后的文件放到哪个目录
+    output: {
+    path: &apos;/dist/&apos;,
+    //此处不能使用相对路径
+    publicPath:&apos;/test/&apos;,
+    filename: &apos;bundle.js&apos; 
+},
+module:{
+    //加载器配置
+    loaders:[
+    {
+        //css-loader处理完，style-loader再进行处理
+        test:/\.css$/,loader:&apos;style-loader!css-loader&apos;},
+        //.js 文件使用 jsx-loader 来编译处理
+        { test: /\.js$/, loader: &apos;jsx-loader?harmony&apos; },
+        //.scss 文件使用 style-loader、css-loader 和 sass-loader 来编译处理
+        { test: /\.scss$/, loader: &apos;style!css!sass?sourceMap&apos;},
+        //图片文件使用 url-loader 来处理，小于8kb的直接转为base64
+        { test: /\.(png|jpg)$/, loader: &apos;url-loader?limit=8192&apos;}
+        ]
+    }
+}
+</code></pre><p>如上，”-loader”其实是可以省略不写的，多个loader之间用“!”连接起来,但是所有的加载器都需要npm来加载。</p>
+<h2 id="模块的引入"><a href="#模块的引入" class="headerlink" title="模块的引入"></a>模块的引入</h2><h4 id="一、HTML"><a href="#一、HTML" class="headerlink" title="一、HTML"></a>一、HTML</h4><p>直接在页面引入 webpack 最终生成的页面脚本即可，不用再写什么 data-main 或 seajs.use 了：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head lang=&quot;en&quot;&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;demo&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script src=&quot;dist/js/page/common.js&quot;&gt;&lt;/script&gt;
+  &lt;script src=&quot;dist/js/page/index.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h4 id="二、JS"><a href="#二、JS" class="headerlink" title="二、JS"></a>二、JS</h4><p>各脚本模块可以直接使用 commonJS 来书写，并可以直接引入未经编译的模块，比如 JSX、sass、coffee等（只要你在 webpack.config.js 里配置好了对应的加载器）。<br>我们再看看编译前的页面入口文件（index.js）：</p>
+<pre><code>require(&apos;../../css/reset.scss&apos;); //加载初始化样式
+require(&apos;../../css/allComponent.scss&apos;); //加载组件样式
+var React = require(&apos;react&apos;);
+var AppWrap = require(&apos;../component/AppWrap&apos;); //加载组件
+var createRedux = require(&apos;redux&apos;).createRedux;
+var Provider = require(&apos;redux/react&apos;).Provider;
+var stores = require(&apos;AppStore&apos;);   
+var redux = createRedux(stores);      
+var App = React.createClass({
+    render: function() {
+        return (
+            &lt;Provider redux={redux}&gt;
+                {function() { return &lt;AppWrap /&gt;; }}
+            &lt;/Provider&gt;
+        );
+    }
+});
+React.render(
+    &lt;App /&gt;, document.body
+);
+</code></pre><h2 id="webpack的优势"><a href="#webpack的优势" class="headerlink" title="webpack的优势"></a>webpack的优势</h2><p>其优势主要可以归类为如下几个：</p>
+<ol>
+<li><p>webpack 是以 commonJS 的形式来书写脚本滴，但对 AMD/CMD 的支持也很全面，方便旧项目进行代码迁移。</p>
+</li>
+<li><p>能被模块化的不仅仅是 JS 了。</p>
+</li>
+<li><p>开发便捷，能替代部分 grunt/gulp 的工作，比如打包、压缩混淆、图片转base64等。</p>
+</li>
+<li><p>扩展性强，插件机制完善，特别是支持 React 热插拔（见 react-hot-loader ）的功能让人眼前一亮。</p>
+</li>
+</ol>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><p>在这里要推荐一个npm包,就是webpack-dev-server，安装这个包之后可以监视对象发生的变化，虽然不是像angular上面的双向数据绑定一样，改动就会发现差别，在这里需要保存之后才可以发现差别，具体配置如下：<br>首先可以在局部安装：</p>
+<pre><code>$npm install webpack-dev-server --save-dev
+</code></pre><p>其次就是在packagejson中的”script”设置：</p>
+<pre><code>server&quot;:&quot;webpack-dev-server --hot --inline
+</code></pre><p>接下来就是多参考官网了：</p>
+<p>webpack的官网是 <a href="http://webpack.github.io/" target="_blank" rel="external">http://webpack.github.io/</a> </p>
+<p>文档地址是 <a href="http://webpack.github.io/docs/" target="_blank" rel="external">http://webpack.github.io/docs/</a> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/04/20/webpack/" class="archive-article-date">
+  	<time datetime="2016-04-20T04:31:38.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-04-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/webpack/">webpack</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-sea" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -531,74 +666,6 @@ Switched to branch &apos;master&apos;
 
 
   
-    <article id="post-closure" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/03/closure/">通俗易懂学闭包</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>要学习闭包，需要一步一步的来。。。</p>
-<h2 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h2><p>要理解闭包，一定要理解JS特殊的变量作用域</p>
-<p>变量的作用域就两种：局部变量和全局变量</p>
-<p>JS语言的特殊之处就是内部函数可以直接读取全局变量，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">　　var n=999;</div><div class="line">　　function f1()&#123;</div><div class="line">　　　　alert(n);</div><div class="line">　　&#125;</div><div class="line">　　f1(); // 999</div></pre></td></tr></table></figure></p>
-<p>而函数外部无法读取函数内的<strong>局部变量</strong>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　&#125;</div><div class="line">　　alert(n); // error</div></pre></td></tr></table></figure></p>
-<h2 id="如何从外部读取局部变量？"><a href="#如何从外部读取局部变量？" class="headerlink" title="如何从外部读取局部变量？"></a>如何从外部读取局部变量？</h2><p>这时候我们就可以在函数的内部，再定义一个函数。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　　　function f2()&#123;</div><div class="line">　　　　　　alert(n); // 999</div><div class="line">　　　　&#125;</div><div class="line">　　&#125;</div></pre></td></tr></table></figure></p>
-<p>在上面的代码中，函数f2就被包括在函数f1内部，这时f1内部的所有局部变量，对f2都是可见的。但是反过来就不行，f2内部的局部变量，对f1就是不可见的。这就是Javascript语言特有的”链式作用域”结构（chain scope），子对象会一级一级地向上寻找所有父对象的变量。所以，父对象的所有变量，对子对象都是可见的，反之则不成立。</p>
-<p>既然f2可以读取f1中的局部变量，那么只要把f2作为返回值，我们不就可以在f1外部读取它的内部变量了吗？<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　　　function f2()&#123;</div><div class="line">　　　　　　alert(n); </div><div class="line">　　　　&#125;</div><div class="line">　　　　return f2;</div><div class="line">　　&#125;</div><div class="line">　　var result=f1();</div><div class="line">　　result(); // 999</div></pre></td></tr></table></figure></p>
-<h2 id="闭包的概念"><a href="#闭包的概念" class="headerlink" title="闭包的概念"></a>闭包的概念</h2><p>我的理解是，闭包就是能够读取其他函数内部变量的函数。</p>
-<p>由于在Javascript语言中，只有函数内部的子函数才能读取局部变量，因此可以把闭包简单理解成”定义在一个函数内部的函数”。</p>
-<h2 id="闭包的用途"><a href="#闭包的用途" class="headerlink" title="闭包的用途"></a>闭包的用途</h2><p>闭包可以用在许多地方。它的最大用处有两个，一个是前面提到的可以读取函数内部的变量，另一个就是让这些变量的值始终保持在内存中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">　　function f1()&#123;</div><div class="line">　　　　var n=999;</div><div class="line">　　　　nAdd=function()&#123;n+=1&#125;</div><div class="line">　　　　function f2()&#123;</div><div class="line">　　　　　　alert(n);</div><div class="line">　　　　&#125;</div><div class="line">　　　　return f2;</div><div class="line">　　&#125;</div><div class="line">　　var result=f1();</div><div class="line">　　result(); // 999</div><div class="line">　　nAdd();</div><div class="line">　　result(); // 1000</div></pre></td></tr></table></figure></p>
-<p>在这段代码中，result实际上就是闭包f2函数。它一共运行了两次，第一次的值是999，第二次的值是1000。这证明了，函数f1中的局部变量n一直保存在内存中，并没有在f1调用后被自动清除。</p>
-<p>为什么会这样呢？原因就在于f1是f2的父函数，而f2被赋给了一个全局变量，这导致f2始终在内存中，而f2的存在依赖于f1，因此f1也始终在内存中，不会在调用结束后，被垃圾回收机制（garbage collection）回收。</p>
-<h2 id="使用闭包要注意的地方"><a href="#使用闭包要注意的地方" class="headerlink" title="使用闭包要注意的地方"></a>使用闭包要注意的地方</h2><ul>
-<li><p>由于闭包会使得函数中的变量都被保存在内存中，内存消耗很大，所以不能滥用闭包，否则会造成网页的性能问题，在IE中可能导致内存泄露。解决方法是，在退出函数之前，将不使用的局部变量全部删除。</p>
-</li>
-<li><p>闭包会在父函数外部，改变父函数内部变量的值。所以，如果你把父函数当作对象（object）使用，把闭包当作它的公用方法（Public Method），把内部变量当作它的私有属性（private value），这时一定要小心，不要随便改变父函数内部变量的值。</p>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/10/03/closure/" class="archive-article-date">
-  	<time datetime="2015-10-03T02:08:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-03</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
@@ -666,7 +733,7 @@ Switched to branch &apos;master&apos;
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
     			</div>
     	</section>
     

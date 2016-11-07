@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://yoursite.com">
+  <title>Express初识(一) | Ktig`s blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Express简介在Web 应用方面：Express 是一个基于 Node.js 平台的极简、灵活的 web 应用开发框架，它提供一系列强大的特性，帮助你创建各种 Web 和移动设备应用。
+在API方面：丰富的 HTTP 快捷方法和任意排列组合的 Connect 中间件，让你创建健壮、友好的 API 变得既快速又简单。
+在性能方面：Express 不对 Node.js 已有的特性进行二次抽象，我们">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Express初识(一)">
+<meta property="og:url" content="http://yoursite.com/2016/11/07/express/index.html">
+<meta property="og:site_name" content="Ktig`s blog">
+<meta property="og:description" content="Express简介在Web 应用方面：Express 是一个基于 Node.js 平台的极简、灵活的 web 应用开发框架，它提供一系列强大的特性，帮助你创建各种 Web 和移动设备应用。
+在API方面：丰富的 HTTP 快捷方法和任意排列组合的 Connect 中间件，让你创建健壮、友好的 API 变得既快速又简单。
+在性能方面：Express 不对 Node.js 已有的特性进行二次抽象，我们">
+<meta property="og:image" content="http://img1.tuicool.com/ne6buqn.jpg!web">
+<meta property="og:image" content="http://img0.tuicool.com/BvmYZri.jpg!web">
+<meta property="og:updated_time" content="2016-11-07T13:30:56.428Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Express初识(一)">
+<meta name="twitter:description" content="Express简介在Web 应用方面：Express 是一个基于 Node.js 平台的极简、灵活的 web 应用开发框架，它提供一系列强大的特性，帮助你创建各种 Web 和移动设备应用。
+在API方面：丰富的 HTTP 快捷方法和任意排列组合的 Connect 中间件，让你创建健壮、友好的 API 变得既快速又简单。
+在性能方面：Express 不对 Node.js 已有的特性进行二次抽象，我们">
+<meta name="twitter:image" content="http://img1.tuicool.com/ne6buqn.jpg!web">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="https://avatars2.githubusercontent.com/u/22739126?v=3&amp;s=466" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Ktig</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">心之所指</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/Ktig" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+		        
+					<a class="google" target="_blank" href="#" title="google">google</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/han-guang-30-89" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">Ktig</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="https://avatars2.githubusercontent.com/u/22739126?v=3&amp;s=466" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Ktig</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">心之所指</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/Ktig" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="#" title="weibo">weibo</a>
+			        
+						<a class="google" target="_blank" href="#" title="google">google</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/han-guang-30-89" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-express" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Express初识(一)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Express简介"><a href="#Express简介" class="headerlink" title="Express简介"></a>Express简介</h2><p><strong>在Web 应用方面：</strong>Express 是一个基于 Node.js 平台的极简、灵活的 web 应用开发框架，它提供一系列强大的特性，帮助你创建各种 Web 和移动设备应用。</p>
+<p><strong>在API方面：</strong>丰富的 HTTP 快捷方法和任意排列组合的 Connect 中间件，让你创建健壮、友好的 API 变得既快速又简单。</p>
+<p><strong>在性能方面：</strong>Express 不对 Node.js 已有的特性进行二次抽象，我们只是在它之上扩展了 Web 应用所需的基本功能。</p>
+<h2 id="学习环境"><a href="#学习环境" class="headerlink" title="学习环境"></a>学习环境</h2><p><strong>Node.js</strong><br><strong>Express</strong><br><strong>MongoDB</strong></p>
+<h2 id="快速开始-搭建一个博客"><a href="#快速开始-搭建一个博客" class="headerlink" title="快速开始(搭建一个博客)"></a>快速开始(搭建一个博客)</h2><h4 id="安装Express"><a href="#安装Express" class="headerlink" title="安装Express"></a>安装Express</h4><p>在命令行输入下列命令：</p>
+<pre><code>$ npm install -g express-generator
+</code></pre><h4 id="新建一个工程"><a href="#新建一个工程" class="headerlink" title="新建一个工程"></a>新建一个工程</h4><pre><code>$ express -e blog
+$ cd blog &amp;&amp; npm install
+</code></pre><p>然后运行：</p>
+<pre><code>$ DEBUG=blog node ./bin/www(windows 下：DEBUG=blog:* npm start )
+</code></pre><p>（上面的代码报错的话，可以这样运行启动项目：npm start） 启动项目，此时命令行中会显示 blog Express server listening on port 3000 +0ms ，在浏览器里访问  localhost:3000 ，如下图所示：</p>
+<p><img src="http://img1.tuicool.com/ne6buqn.jpg!web" alt=""></p>
+<p>至此，我们用 express 初始化了一个工程项目，并指定使用 ejs 模板引擎，接下来就看一下工程的内部结构。</p>
+<h4 id="工程结构"><a href="#工程结构" class="headerlink" title="工程结构"></a>工程结构</h4><p>我们回头看看生成的工程目录里面都有什么，打开我们的 blog 文件夹，里面如图所示：</p>
+<p><img src="http://img0.tuicool.com/BvmYZri.jpg!web" alt=""></p>
+<p><strong>app.js：</strong>启动文件，或者说入口文件</p>
+<p><strong>package.json：</strong>存储着工程的信息及模块依赖，当在 dependencies 中添加依赖的模块时，运行 npm install ，npm 会检查当前目录下的 package.json，并自动安装所有指定的模块.</p>
+<p><strong>node_modules：</strong>存放 package.json 中安装的模块，当你在 package.json 添加依赖的模块并安装后，存放在这个文件夹下</p>
+<p><strong>public：</strong>存放 image、css、js 等文件</p>
+<p><strong>routes：</strong>存放路由文件</p>
+<p><strong>views：</strong>存放视图文件或者说模版文件</p>
+<p><strong>bin：</strong>存放可执行的文件</p>
+<h4 id="app-js"><a href="#app-js" class="headerlink" title="app.js"></a>app.js</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var path = require(&apos;path&apos;);</div><div class="line">var favicon = require(&apos;serve-favicon&apos;);</div><div class="line">var logger = require(&apos;morgan&apos;);</div><div class="line">var cookieParser = require(&apos;cookie-parser&apos;);</div><div class="line">var bodyParser = require(&apos;body-parser&apos;);</div><div class="line"></div><div class="line">var routes = require(&apos;./routes/index&apos;);</div><div class="line">var users = require(&apos;./routes/users&apos;);</div><div class="line"></div><div class="line">var app = express();</div><div class="line"></div><div class="line">// view engine setup</div><div class="line">app.set(&apos;views&apos;, path.join(__dirname, &apos;views&apos;));</div><div class="line">app.set(&apos;view engine&apos;, &apos;ejs&apos;);</div><div class="line"></div><div class="line">// uncomment after placing your favicon in /public</div><div class="line">//app.use(favicon(__dirname + &apos;/public/favicon.ico&apos;));</div><div class="line">app.use(logger(&apos;dev&apos;));</div><div class="line">app.use(bodyParser.json());</div><div class="line">app.use(bodyParser.urlencoded(&#123; extended: false &#125;));</div><div class="line">app.use(cookieParser());</div><div class="line">app.use(express.static(path.join(__dirname, &apos;public&apos;)));</div><div class="line"></div><div class="line">app.use(&apos;/&apos;, routes);</div><div class="line">app.use(&apos;/users&apos;, users);</div><div class="line"></div><div class="line">// catch 404 and forward to error handler</div><div class="line">app.use(function(req, res, next) &#123;</div><div class="line">    var err = new Error(&apos;Not Found&apos;);</div><div class="line">    err.status = 404;</div><div class="line">    next(err);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// error handlers</div><div class="line"></div><div class="line">// development error handler</div><div class="line">// will print stacktrace</div><div class="line">if (app.get(&apos;env&apos;) === &apos;development&apos;) &#123;</div><div class="line">    app.use(function(err, req, res, next) &#123;</div><div class="line">        res.status(err.status || 500);</div><div class="line">        res.render(&apos;error&apos;, &#123;</div><div class="line">            message: err.message,</div><div class="line">            error: err</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">// production error handler</div><div class="line">// no stacktraces leaked to user</div><div class="line">app.use(function(err, req, res, next) &#123;</div><div class="line">    res.status(err.status || 500);</div><div class="line">    res.render(&apos;error&apos;, &#123;</div><div class="line">        message: err.message,</div><div class="line">        error: &#123;&#125;</div><div class="line">    &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">module.exports = app;</div></pre></td></tr></table></figure>
+<ul>
+<li>var app = express()：生成一个express实例 app。</li>
+<li>app.set(‘views’, path.join(<strong>dirname, ‘views’))：设置 views 文件夹为存放视图文件的目录, 即存放模板文件的地方,</strong>dirname 为全局变量,存储当前正在执行的脚本所在的目录。</li>
+<li>app.set(‘view engine’, ‘ejs’)：设置视图模板引擎为 ejs。</li>
+<li>app.use(favicon(__dirname + ‘/public/favicon.ico’))：设置/public/favicon.ico为favicon图标。</li>
+<li>app.use(logger(‘dev’))：加载日志中间件。</li>
+<li>app.use(bodyParser.json())：加载解析json的中间件。</li>
+<li>app.use(bodyParser.urlencoded({ extended: false }))：加载解析urlencoded请求体的中间件。</li>
+<li>app.use(cookieParser())：加载解析cookie的中间件。</li>
+<li>app.use(express.static(path.join(__dirname, ‘public’)))：设置public文件夹为存放静态文件的目录。</li>
+<li>app.use(‘/‘, routes);和app.use(‘/users’, users)：路由控制器。</li>
+<li>module.exports = app ：导出app实例供其他模块调用。</li>
+</ul>
+<p>捕获404错误，并转发到错误处理器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app.use(function(req, res, next) &#123;</div><div class="line">    var err = new Error(&apos;Not Found&apos;);</div><div class="line">    err.status = 404;</div><div class="line">    next(err);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<p>开发环境下的错误处理器，将错误信息渲染error模版并显示到浏览器中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">if (app.get(&apos;env&apos;) === &apos;development&apos;) &#123;</div><div class="line">    app.use(function(err, req, res, next) &#123;</div><div class="line">        res.status(err.status || 500);</div><div class="line">        res.render(&apos;error&apos;, &#123;</div><div class="line">            message: err.message,</div><div class="line">            error: err</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>生产环境下的错误处理器，将错误信息渲染error模版并显示到浏览器中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">app.use(function(err, req, res, next) &#123;</div><div class="line">    res.status(err.status || 500);</div><div class="line">    res.render(&apos;error&apos;, &#123;</div><div class="line">        message: err.message,</div><div class="line">        error: &#123;&#125;</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
+<h4 id="bin-www"><a href="#bin-www" class="headerlink" title="bin/www"></a>bin/www</h4><p>启动程序的接口</p>
+<h4 id="routes-index-js"><a href="#routes-index-js" class="headerlink" title="routes/index.js"></a>routes/index.js</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var router = express.Router();</div><div class="line"></div><div class="line">/* GET home page. */</div><div class="line">router.get(&apos;/&apos;, function(req, res) &#123;</div><div class="line">  res.render(&apos;index&apos;, &#123; title: &apos;Express&apos; &#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">module.exports = router;</div></pre></td></tr></table></figure>
+<p>生成一个路由实例用来捕获访问主页的GET请求，导出这个路由并在app.js中通过app.use(‘/‘, routes); 加载。这样，当访问主页时，就会调用res.render(‘index’, { title: ‘Express’ });渲染views/index.ejs模版并显示到浏览器中。</p>
+<h4 id="views-index-ejs"><a href="#views-index-ejs" class="headerlink" title="views/index.ejs"></a>views/index.ejs</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;</div><div class="line">    &lt;link rel=&apos;stylesheet&apos; href=&apos;/stylesheets/style.css&apos; /&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;Welcome to &lt;%= title %&gt;&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>在渲染模板时我们传入了一个变量 title 值为 express 字符串，模板引擎会将所有 &lt;%= title %&gt; 替换为 express ，然后将渲染后生成的html显示到浏览器中，如上所示。</p>
+<p>先写到这里，接下来将会介绍<strong>路由控制</strong>部分。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/07/express/" class="archive-article-date">
+  	<time datetime="2016-11-07T12:08:50.161Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2016/10/02/FlexLayout/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Flex布局（弹性布局）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 Ktig
+    	</div>
+      	<div class="footer-right">	
+              <span>本站的主题：<span style='color:green'>Yilia</span></span>
+          </span>
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.liaoxuefeng.com/">廖雪峰</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.ruanyifeng.com/home.html/">阮一峰</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.zhangxinxu.com/">张鑫旭</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.barretlee.com/entry/">小胡子哥</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://taobaofed.org/">淘宝前端团队</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://fex.baidu.com/">百度前端研发部</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">未曾一次退败&lt;br&gt;&lt;br&gt;未尝得一知己</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

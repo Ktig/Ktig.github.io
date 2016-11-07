@@ -14,7 +14,7 @@
 <meta property="og:url" content="http://yoursite.com/2016/05/18/JS-arguments/index.html">
 <meta property="og:site_name" content="Ktig`s blog">
 <meta property="og:description" content="一、什么是argumentsarguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返">
-<meta property="og:updated_time" content="2016-11-06T12:04:33.678Z">
+<meta property="og:updated_time" content="2016-11-07T13:30:39.697Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS中的arguments的作用">
 <meta name="twitter:description" content="一、什么是argumentsarguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返">
@@ -168,7 +168,7 @@
 <p>结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a</div><div class="line">17</div><div class="line">[1, 2, 3]</div><div class="line">&#123;name: &quot;javascript&quot;, type: &quot;language&quot;&#125;</div></pre></td></tr></table></figure></p>
 <p>4.Array.prototype.slice.call(arguments):</p>
 <p>首先我们来看看call是干什么的，举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var obj1=&#123;</div><div class="line">    name:&quot;java&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">window.name=&quot;javascript&quot;;</div><div class="line">var func=function()&#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">func();  //javasript</div><div class="line">func.call(obj1); //java</div></pre></td></tr></table></figure></p>
-<p>我们可以很清楚的看到，call的一个作用是可以改变函数运行的作用域，func中的this指向了obj1。同样的，提到了call,当然就少不了apply，具体区别可以查看：<a href="http://" target="_blank" rel="external">JS中call、apply和bind的区别</a></p>
+<p>我们可以很清楚的看到，call的一个作用是可以改变函数运行的作用域，func中的this指向了obj1。同样的，提到了call,当然就少不了apply，具体区别可以查看：<a href="https://ktig.github.io/2016/05/20/JS-bound/" target="_blank" rel="external">JS中call、apply和bind的区别</a></p>
 <p>那Array.prototype.slice.call(arguments)是干啥的呢？</p>
 <p>首先我们猜测Array.prototype.slice是一个方法，将它call(arguments)之后，Array.prototype.slice中的this就指向了arguments对象了。</p>
 <p>其实Array.slice是一个数组复制函数，它接受两个参数(start,[end]);从下标为start复制到下标为end，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var numArr=[1,2,3,4,5];</div><div class="line">console.log(numArr.slice(0,4)); //[1,2,3,4]</div><div class="line">console.log(numArr.slice()); //[1,2,3,4,5]</div><div class="line">console.log(numArr.slice(1)) //[2,3,4,5]</div></pre></td></tr></table></figure></p>
@@ -304,7 +304,7 @@
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a>
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
     			</div>
     	</section>
     
