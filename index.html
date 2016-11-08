@@ -144,7 +144,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-express" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-express-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -154,7 +154,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/07/express/">Express初识(一)</a>
+      <a class="article-title" href="/2016/11/07/express-1/">Express初识(一)</a>
     </h1>
   
 
@@ -212,13 +212,68 @@ $ cd blog &amp;&amp; npm install
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2016/11/07/express/" class="archive-article-date">
+      <a href="/2016/11/07/express-1/" class="archive-article-date">
   	<time datetime="2016-11-07T12:08:50.161Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-07</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据库/">数据库</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-gulp vs grunt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/18/gulp vs grunt/">Gulp VS Grunt</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="书写方式"><a href="#书写方式" class="headerlink" title="书写方式"></a>书写方式</h2><p>grunt运用配置的思想来打包脚本，一切皆配置，所以会出现许多的配置项。</p>
+<p>gulp是用代码的方式来打包脚本，并且代码采用流式的写法，且代码量能比grunt少一半左右。</p>
+<h2 id="任务划分"><a href="#任务划分" class="headerlink" title="任务划分"></a>任务划分</h2><p>grunt 中每个任务对应一个最外层配置的key,大任务可以包含小任务，以一种树形结构存在</p>
+<p>gulp 中没有子任务的概念，可以通过注册task来完成。</p>
+<h2 id="运行效率"><a href="#运行效率" class="headerlink" title="运行效率"></a>运行效率</h2><p>grunt 采用串行的方式执行任务。</p>
+<p>gulp 基于并行执行任务的思想，通过一个pipe方法，以数据流的方式处理打包任务。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/18/gulp vs grunt/" class="archive-article-date">
+  	<time datetime="2016-10-18T04:33:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/对比/">对比</a></li></ul>
 	</div>
 
       
@@ -483,71 +538,9 @@ Array.prototype.slice.apply({length:1})
 
 
   
-    <article id="post-JS-arguments" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/05/18/JS-arguments/">JS中的arguments的作用</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="一、什么是arguments"><a href="#一、什么是arguments" class="headerlink" title="一、什么是arguments"></a>一、什么是arguments</h2><p>arguments 是JavaScript里的一个内置对象，它很古怪，也经常被人所忽视，但实际上是很重要的。所有主要的js函数库都利用了arguments对象。所以agruments对象对于javascript程序员来说是必需熟悉的。<br>所有的函数都有属于自己的一个arguments对象，它包括了函数所要调用的参数。他不是一个数组，如果用typeof arguments，返回的是’object’。虽然我们可以用调用数据的方法来调用arguments。比如length,还有index方法。但是数组的push和pop对象是不适用的。</p>
-<h2 id="二、arguments的作用"><a href="#二、arguments的作用" class="headerlink" title="二、arguments的作用"></a>二、arguments的作用</h2><p>1.每个函数都有一个arguments属性，表示函数的实参集合，这里的实参是重点，就是执行函数时实际传入的参数的集合。</p>
-<p>2.arguments不是数组而是一个对象，但它和数组很相似，所以通常称为类数组对象，以后看到类数组其实就表示arguments。</p>
-<p>3.arguments有length属性，可以用arguments[length]显示调用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function func()&#123;</div><div class="line">     for(var i=0;i&lt;arguments.length;i++)&#123;</div><div class="line">         console.log(arguments[i]);</div><div class="line">    &#125;      </div><div class="line">&#125;</div><div class="line"></div><div class="line">func(&quot;a&quot;,17,[1,2,3],&#123;name:&quot;javascript&quot;,type:&quot;language&quot;&#125;);</div></pre></td></tr></table></figure></p>
-<p>结果是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">a</div><div class="line">17</div><div class="line">[1, 2, 3]</div><div class="line">&#123;name: &quot;javascript&quot;, type: &quot;language&quot;&#125;</div></pre></td></tr></table></figure></p>
-<p>4.Array.prototype.slice.call(arguments):</p>
-<p>首先我们来看看call是干什么的，举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var obj1=&#123;</div><div class="line">    name:&quot;java&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">window.name=&quot;javascript&quot;;</div><div class="line">var func=function()&#123;</div><div class="line">    console.log(this.name);</div><div class="line">&#125;</div><div class="line"></div><div class="line">func();  //javasript</div><div class="line">func.call(obj1); //java</div></pre></td></tr></table></figure></p>
-<p>我们可以很清楚的看到，call的一个作用是可以改变函数运行的作用域，func中的this指向了obj1。同样的，提到了call,当然就少不了apply，具体区别可以查看：<a href="https://ktig.github.io/2016/05/20/JS-bound/" target="_blank" rel="external">JS中call、apply和bind的区别</a></p>
-<p>那Array.prototype.slice.call(arguments)是干啥的呢？</p>
-<p>首先我们猜测Array.prototype.slice是一个方法，将它call(arguments)之后，Array.prototype.slice中的this就指向了arguments对象了。</p>
-<p>其实Array.slice是一个数组复制函数，它接受两个参数(start,[end]);从下标为start复制到下标为end，举个栗子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var numArr=[1,2,3,4,5];</div><div class="line">console.log(numArr.slice(0,4)); //[1,2,3,4]</div><div class="line">console.log(numArr.slice()); //[1,2,3,4,5]</div><div class="line">console.log(numArr.slice(1)) //[2,3,4,5]</div></pre></td></tr></table></figure></p>
-<p>所以，当Array.prototype.slice.call(arguments)后，就变成了result.push(arguments[i])，这样就将arguments转成了一个实实在在的数组了。</p>
-<p>5.提到了arguments，我们就会想到callee，callee的属性是一个指针，指向拥有这个arguments对象的函数。所有在函数复杂的地方找arguments确实不好办，比如递归函数。。。所以这个时候就会用到了callee.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">function factorial(num)&#123;</div><div class="line">    if(num&lt;1)&#123;</div><div class="line">        return 1;</div><div class="line">    &#125;else&#123;</div><div class="line">        return num * arguments.callee(num-1);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/05/18/JS-arguments/" class="archive-article-date">
-  	<time datetime="2016-05-18T10:33:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-05-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/JavaScript/">JavaScript</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 
@@ -612,7 +605,7 @@ Array.prototype.slice.apply({length:1})
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
+    				<a href="/tags/CSS/" style="font-size: 15px;">CSS</a> <a href="/tags/DOM/" style="font-size: 10px;">DOM</a> <a href="/tags/Git/" style="font-size: 10px;">Git</a> <a href="/tags/JavaScript/" style="font-size: 20px;">JavaScript</a> <a href="/tags/MarkDown/" style="font-size: 10px;">MarkDown</a> <a href="/tags/node-js/" style="font-size: 10px;">node.js</a> <a href="/tags/sea-js/" style="font-size: 10px;">sea.js</a> <a href="/tags/webpack/" style="font-size: 10px;">webpack</a> <a href="/tags/前端引擎/" style="font-size: 10px;">前端引擎</a> <a href="/tags/对比/" style="font-size: 10px;">对比</a> <a href="/tags/数据库/" style="font-size: 10px;">数据库</a>
     			</div>
     	</section>
     
